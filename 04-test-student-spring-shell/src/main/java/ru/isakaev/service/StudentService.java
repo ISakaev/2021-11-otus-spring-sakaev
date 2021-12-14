@@ -5,4 +5,6 @@ import ru.isakaev.model.Student;
 public interface StudentService {
 
     Student getStudent();
+
+    void addStudent(Student student);
 }

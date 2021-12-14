@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.MessageSource;
 import org.springframework.test.context.TestPropertySource;
 import ru.isakaev.model.Question;
 import ru.isakaev.model.Student;
@@ -17,15 +16,10 @@ import java.util.Set;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(properties = "spring.shell.interactive.enabled=false")
-@TestPropertySource(properties = {"barrier=1"})
 class TestServiceImplTest {
 
-    @Value("${barrier}")
-    private Integer passingBarrier;
-
-    private Student student;
-
-    private Set<Question> questionSet;
+    @MockBean
+    private QuestionnaireStudent questionnaireStudent;
 
     @MockBean
     private QuestionService questionService;
@@ -39,6 +33,9 @@ class TestServiceImplTest {
     @MockBean
     private MessageSourceService source;
 
+    private Student student;
+
+    private Set<Question> questionSet;
 
     @BeforeEach
     void setUp() {
@@ -52,7 +49,7 @@ class TestServiceImplTest {
     }
 
     @Test
-    void testStudent_void_success() throws NoSuchFieldException, IllegalAccessException {
+    void testStudent_void_success(){
 
         when(questionService.loadQuestions()).thenReturn(questionSet);
 
@@ -64,22 +61,20 @@ class TestServiceImplTest {
 
         when(source.getMessage("text.attempt.exist"))
                 .thenReturn("The student %s %s your have %s attempts %s");
-        when(source.getMessage("text.test.finish.pass"))
-                .thenReturn("Eee you pass test and have %s right answer! %s");
         when(source.getMessage("text.test.exit"))
                 .thenReturn("Enter \"EXIT\" if want to exit test or any line for test another student");
         when(source.getMessage("text.test.check"))
                 .thenReturn("EXIT");
 
-        TestService test = new TestServiceImpl(passingBarrier, source, studentService, questionService, readerService);
+        Student studentAfterTest = new Student("Ilnur", "Sakaev", 3);
+        studentAfterTest.setIsTestComplete(true);
 
-        //        passingBarrier
-        Field passingBarrier = test.getClass().getDeclaredField("passingBarrier");
-        passingBarrier.setAccessible(true);
-        passingBarrier.set(test, this.passingBarrier);
+        when(questionnaireStudent.getQuestionnaire(student,questionSet)).thenReturn(studentAfterTest);
+
+        TestService test = new TestServiceImpl(source, studentService, questionService, readerService, questionnaireStudent);
 
         test.testStudent();
-        Assertions.assertThat(student.getIsTestComplete()).isEqualTo(true);
+        Assertions.assertThat(studentAfterTest.getIsTestComplete()).isEqualTo(true);
     }
 
     @Test
@@ -90,7 +85,7 @@ class TestServiceImplTest {
         when(source.getMessage("text.attempt.empty"))
                 .thenReturn("The Student %s %s has not available attempt %s");
 
-        TestService test = new TestServiceImpl(passingBarrier, source, studentService, questionService, readerService);
+        TestService test = new TestServiceImpl(source, studentService, questionService, readerService, questionnaireStudent);
 
         test.testStudent();
     }
@@ -103,45 +98,8 @@ class TestServiceImplTest {
         when(source.getMessage("text.test.pass"))
                 .thenReturn("Student %s %s successfully pass test%s");
 
-        TestService test = new TestServiceImpl(passingBarrier, source, studentService, questionService, readerService);
+        TestService test = new TestServiceImpl(source, studentService, questionService, readerService, questionnaireStudent);
 
         test.testStudent();
-    }
-
-    @Test
-    void testStudent_void_success_with_fail_test() throws NoSuchFieldException, IllegalAccessException {
-
-        when(questionService.loadQuestions()).thenReturn(questionSet);
-
-        when(studentService.getStudent()).thenReturn(student);
-
-        String two = "one";
-        String exit = "exit";
-        when(readerService.readFromConsole()).thenReturn(two, two, "no", exit);
-
-        when(source.getMessage("text.attempt.exist"))
-                .thenReturn("The student %s %s your have %s attempts %s");
-        when(source.getMessage("text.test.finish.fail"))
-                .thenReturn("You fail test and have %s right answer, and have %s attempts %s");
-
-        when(source.getMessage("text.test.finish.retry"))
-                .thenReturn("If you want try again enter RETRY");
-
-        when(source.getMessage("text.test.finish.check"))
-                .thenReturn("RETRY");
-        when(source.getMessage("text.test.exit"))
-                .thenReturn("Enter \"EXIT\" if want to exit test or any line for test another student");
-        when(source.getMessage("text.test.check"))
-                .thenReturn("EXIT");
-
-        TestService test = new TestServiceImpl(passingBarrier, source, studentService, questionService, readerService);
-
-        //        passingBarrier
-        Field passingBarrier = test.getClass().getDeclaredField("passingBarrier");
-        passingBarrier.setAccessible(true);
-        passingBarrier.set(test, this.passingBarrier);
-
-        test.testStudent();
-        Assertions.assertThat(student.getIsTestComplete()).isEqualTo(false);
     }
 }

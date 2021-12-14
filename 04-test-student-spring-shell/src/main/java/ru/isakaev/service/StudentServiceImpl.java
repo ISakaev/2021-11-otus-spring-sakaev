@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-
 @PropertySource("classpath:application.yml")
 public class StudentServiceImpl implements StudentService {
 
@@ -48,5 +47,10 @@ public class StudentServiceImpl implements StudentService {
         }
 
         return student;
+    }
+
+    @Override
+    public void addStudent(Student student) {
+        students.add(student);
     }
 }
