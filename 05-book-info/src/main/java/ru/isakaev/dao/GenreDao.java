@@ -10,7 +10,7 @@ public interface GenreDao {
 
     Genre getById(int id);
 
-    int save(Genre genre);
+    Genre save(Genre genre);
 
     void deleteById(int id);
 }

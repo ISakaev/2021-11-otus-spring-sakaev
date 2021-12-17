@@ -11,7 +11,7 @@ public interface AuthorDao {
 
     Author getById(int id);
 
-    int save(Author author);
+    Author save(Author author);
 
     void deleteById(int id);
 }

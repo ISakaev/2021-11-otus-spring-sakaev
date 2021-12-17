@@ -3,20 +3,17 @@ package ru.isakaev.dao;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.isakaev.model.Author;
-import ru.isakaev.model.Book;
-import ru.isakaev.model.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings({"SqlNoDataSourceInspection", "ConstantConditions", "SqlDialectInspection"})
 @Repository
 public class AuthorDaoImpl implements AuthorDao {
 
@@ -38,14 +35,14 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public int save(Author author) {
+    public Author save(Author author) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", author.getName());
 
         KeyHolder kh = new GeneratedKeyHolder();
         jdbcOperations.update("INSERT INTO author(name) VALUES(:name)", params, kh);
-
-        return kh.getKey().intValue();
+        int id = kh.getKey().intValue();
+        return new Author(id, author.getName());
     }
 
     @Override

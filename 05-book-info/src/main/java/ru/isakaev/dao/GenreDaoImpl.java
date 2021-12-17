@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import ru.isakaev.model.Author;
 import ru.isakaev.model.Genre;
 
 import java.sql.ResultSet;
@@ -14,6 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings({"SqlNoDataSourceInspection", "ConstantConditions", "SqlDialectInspection"})
 @Repository
 public class GenreDaoImpl implements GenreDao {
 
@@ -34,14 +34,15 @@ public class GenreDaoImpl implements GenreDao {
                 Map.of("id", id), new GenreMapper());
     }
     @Override
-    public int save(Genre genre) {
+    public Genre save(Genre genre) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", genre.getName());
 
         KeyHolder kh = new GeneratedKeyHolder();
         jdbcOperations.update("INSERT INTO genre(name) VALUES(:name)", params, kh);
 
-        return kh.getKey().intValue();
+        int id = kh.getKey().intValue();
+        return new Genre(id, genre.getName());
     }
 
     @Override

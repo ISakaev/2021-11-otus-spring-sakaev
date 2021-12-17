@@ -8,37 +8,35 @@ import ru.isakaev.dao.BookDao;
 import ru.isakaev.model.Author;
 import ru.isakaev.model.Book;
 import ru.isakaev.model.Genre;
+import ru.isakaev.service.BookService;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class ShellCommandsBook {
 
-    private final BookDao bookDao;
+    private final BookService bookService;
 
-    @ShellMethod(value = "Get all books", key = {"getBooks"})
-    public String getBooks(){
-        bookDao.getAll().forEach(System.out::println);
-        return "Application end";
+    @ShellMethod(value = "Get all books", key = {"gbs", "getBooks"})
+    public void getBooks(){
+        bookService.getAll().forEach(System.out::println);
     }
 
-    @ShellMethod(value = "Get all books", key = {"getBookById"})
-    public String getBookById(@ShellOption Integer id){
-        return bookDao.getById(id).toString();
+    @ShellMethod(value = "Get book by id", key = {"gb", "getBook"})
+    public String getBook(@ShellOption Integer id){
+        return bookService.getBook(id).toString();
     }
 
-    @ShellMethod(value = "Get all books", key = {"saveBook"})
-    public String saveBook(@ShellOption Integer id,
-                           @ShellOption String name,
+    @ShellMethod(value = "Save book", key = {"sb", "saveBook"})
+    public String saveBook(@ShellOption String name,
                            @ShellOption String author,
                            @ShellOption String genre){
-        Book book = new Book(id,name, new Author(id, author), new Genre(id,genre));
-        bookDao.save(book);
-        return "Book - " + book.toString() + " was saved";
+        Book book = bookService.saveBook(name, author, genre);
+        return "Book - " + book + " was saved";
     }
 
-    @ShellMethod(value = "Get all books", key = {"deleteBookById"})
-    public String deleteBookById(@ShellOption Integer id){
-        bookDao.getAll().forEach(System.out::println);
+    @ShellMethod(value = "Delete book", key = {"db", "deleteBookById"})
+    public String deleteBook(@ShellOption Integer id){
+        bookService.getAll().forEach(System.out::println);
         return "Application end";
     }
 }

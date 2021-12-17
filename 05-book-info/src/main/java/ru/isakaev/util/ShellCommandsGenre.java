@@ -4,36 +4,34 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.isakaev.dao.AuthorDao;
-import ru.isakaev.dao.GenreDao;
-import ru.isakaev.model.Author;
 import ru.isakaev.model.Genre;
+import ru.isakaev.service.GenreService;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class ShellCommandsGenre {
 
-    private final GenreDao genreDao;
+    private final GenreService genreService;
 
-    @ShellMethod(value = "Get all genres", key = {"getGenres"})
+    @ShellMethod(value = "Get all genres", key = {"ggs", "getGenres"})
     public void getGenres(){
-        genreDao.getAll().forEach(System.out::println);
+        genreService.getAll().forEach(System.out::println);
     }
 
-    @ShellMethod(value = "Get genre by id", key = {"getGenreById"})
-    public String getGenreById(@ShellOption Integer id){
-        return genreDao.getById(id).toString();
+    @ShellMethod(value = "Get genre by id", key = {"gg", "getGenre"})
+    public String getGenre(@ShellOption Integer id){
+        return genreService.getGenre(id).toString();
     }
 
-    @ShellMethod(value = "Save genre", key = {"saveGenre"})
+    @ShellMethod(value = "Save genre", key = {"sg", "saveGenre"})
     public String saveGenre(@ShellOption String name){
-        int i = genreDao.save(new Genre(name));
-        return "Genre with id - " + i + " was saved";
+        Genre genre = genreService.saveGenre(name);
+        return "Genre " + genre.toString() + " was saved";
     }
 
-    @ShellMethod(value = "Delete genre by id", key = {"deleteGenreById"})
-    public String deleteGenreById(@ShellOption Integer id){
-        genreDao.deleteById(id);
+    @ShellMethod(value = "Delete genre by id", key = {"dg", "deleteGenreById"})
+    public String deleteGenre(@ShellOption Integer id){
+        genreService.deleteGenre(id);
         return "Genre with id - " + id + " was deleted";
     }
 }

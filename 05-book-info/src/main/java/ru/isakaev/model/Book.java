@@ -8,21 +8,20 @@ import lombok.RequiredArgsConstructor;
 public class Book {
 
     private Integer id;
-    private String name;
+    private String title;
     private Author author;
     private Genre genre;
 
-    public Book(Integer id, String name) {
+    public Book(Integer id, String title, Author author, Genre genre) {
         this.id = id;
-        this.name = name;
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
     }
 
-    public Book() {
-    }
 
-    public Book(Integer id, String name, Author author, Genre genre) {
-        this.id = id;
-        this.name = name;
+    public Book(String title, Author author, Genre genre) {
+        this.title = title;
         this.author = author;
         this.genre = genre;
     }
