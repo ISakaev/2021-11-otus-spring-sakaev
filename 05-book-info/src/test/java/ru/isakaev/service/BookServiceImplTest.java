@@ -39,26 +39,26 @@ class BookServiceImplTest {
     }
 
     @Test
-    void getAll() {
+    void shouldGetAllBooksFromService() {
         bookService.getAll();
         verify(bookDao).getAll();
     }
 
     @Test
-    void getBook() {
+    void shouldGetBookByIdFromService() {
         bookService.getBook(book.getId());
         verify(bookDao).getById(1);
     }
 
     @Test
-    void saveAvailableBook() {
+    void shouldSaveAvailableBook() {
         when(bookDao.getAll()).thenReturn(List.of(book));
         Book newBook = bookService.saveBook("Название книги", "Автор", "Жанр");
         assertThat(newBook.getId()).isEqualTo(book.getId());
     }
 
     @Test
-    void saveUnavailableBook() {
+    void shouldSaveUnavailableBook() {
         Author author = new Author(1, "Автор");
         Genre genre = new Genre(1, "Жанр");
         when(bookDao.getAll()).thenReturn(List.of(book));
@@ -70,7 +70,7 @@ class BookServiceImplTest {
     }
 
     @Test
-    void deleteBook() {
+    void shouldDeleteBook() {
         bookService.deleteBook(book.getId());
         verify(bookDao).deleteById(1);
     }

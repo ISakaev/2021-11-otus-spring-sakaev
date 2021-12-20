@@ -29,26 +29,26 @@ class AuthorServiceImplTest {
     }
 
     @Test
-    void getAll() {
-        authorDao.getAll();
+    void shouldGetAllAuthorsFromService() {
+        authorService.getAll();
         verify(authorDao).getAll();
     }
 
     @Test
-    void getAuthor() {
+    void shouldGetAuthorByIdFromService() {
         authorService.getAuthor(author.getId());
         verify(authorDao).getById(1);
     }
 
     @Test
-    void saveAvailableAuthor() {
+    void shouldSaveAvailableAuthor() {
         when(authorDao.getAll()).thenReturn(List.of(author));
         Author newAuthor = authorService.saveAuthor("Автор");
         assertThat(newAuthor.getId()).isEqualTo(author.getId());
     }
 
     @Test
-    void saveUnavailableAuthor() {
+    void shouldSaveUnavailableAuthor() {
         when(authorDao.getAll()).thenReturn(List.of(author));
         Author secondAuthor = new Author(2, "Новый автор");
         when(authorDao.save(new Author("Новый автор"))).thenReturn(secondAuthor);
@@ -57,7 +57,7 @@ class AuthorServiceImplTest {
     }
 
     @Test
-    void deleteAuthor() {
+    void shouldDeleteAuthor() {
         authorService.deleteAuthor(author.getId());
         verify(authorDao).deleteById(1);
     }
