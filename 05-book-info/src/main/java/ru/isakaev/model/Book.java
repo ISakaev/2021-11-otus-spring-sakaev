@@ -1,8 +1,6 @@
 package ru.isakaev.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Data
 public class Book {
@@ -18,7 +16,6 @@ public class Book {
         this.author = author;
         this.genre = genre;
     }
-
 
     public Book(String title, Author author, Genre genre) {
         this.title = title;

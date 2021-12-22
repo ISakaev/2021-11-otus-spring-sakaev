@@ -38,7 +38,7 @@ public class BookDaoImpl implements BookDao {
                                             "g.id AS genre_id, g.name AS genre_name " +
                                             "FROM book b " +
                                             "JOIN  author a ON b.author = a.id " +
-                                            "JOIN genre g ON b.author = g.id", new RowMapper<Book>() {
+                                            "JOIN genre g ON b.genre = g.id", new RowMapper<Book>() {
             @Override
             public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
                 int id = rs.getInt("book_id");
