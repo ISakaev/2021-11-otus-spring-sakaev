@@ -5,7 +5,6 @@ import ru.isakaev.model.Author;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -23,16 +22,16 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public List<Author> getAll() {
-        TypedQuery<Author> query = em.createQuery("select a from author a", Author.class);
+        TypedQuery<Author> query = em.createQuery("select a from Author a", Author.class);
         return query.getResultList();
     }
 
     @Override
-    public Author findByName(String name) {
-        TypedQuery<Author> query = em.createQuery("select a from author a where a.name = :name",
+    public List<Author> findByName(String name) {
+        TypedQuery<Author> query = em.createQuery("select a from Author a where a.name = :name",
                 Author.class);
         query.setParameter("name", name);
-        return query.getSingleResult();
+        return query.getResultList();
     }
 
     @Override
@@ -42,7 +41,7 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author save(Author author) {
-        if (author.getId() <= 0) {
+        if (author.getId() == null) {
             em.persist(author);
             return author;
         } else {
@@ -52,11 +51,8 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public void deleteById(int id) {
-//        Author author = em.find(Author.class, id);
-//        em.remove(author);
-        Query query = em.createQuery("DELETE FROM author a where a.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        Author author = em.find(Author.class, id);
+        em.remove(author);
     }
 
 }

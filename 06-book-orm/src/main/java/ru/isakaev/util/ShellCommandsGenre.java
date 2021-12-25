@@ -20,7 +20,11 @@ public class ShellCommandsGenre {
 
     @ShellMethod(value = "Get genre by id", key = {"gg", "getGenre"})
     public String getGenre(@ShellOption Integer id){
-        return genreService.getGenre(id).toString();
+        Genre genre = genreService.getGenre(id);
+        if(genre != null){
+            return genre.toString();
+        }
+        return "Genre with id " + id + " was not found";
     }
 
     @ShellMethod(value = "Save genre", key = {"sg", "saveGenre"})

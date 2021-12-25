@@ -1,12 +1,14 @@
 package ru.isakaev.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.isakaev.dao.GenreDao;
 import ru.isakaev.model.Genre;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class GenreServiceImpl implements GenreService {
 
     private final GenreDao genreDao;
@@ -16,25 +18,29 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Genre> getAll() {
         return genreDao.getAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Genre getGenre(int id) {
-        return genreDao.getById(id);
+        return genreDao.getById(id).orElse(null);
     }
 
     @Override
+    @Transactional
     public Genre saveGenre(String name) {
-        Genre genre = genreDao.getAll().stream().filter(g -> g.getName().equalsIgnoreCase(name)).findAny().orElse(null);
-        if (genre != null){
-            return genre;
+        List<Genre> genres = genreDao.findByName(name);
+        if(!genres.isEmpty()){
+            return genres.get(0);
         }
         return genreDao.save(new Genre(name));
     }
 
     @Override
+    @Transactional
     public void deleteGenre(int id) {
         genreDao.deleteById(id);
     }

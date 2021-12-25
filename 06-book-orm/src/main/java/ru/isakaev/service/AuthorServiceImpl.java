@@ -1,6 +1,7 @@
 package ru.isakaev.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.isakaev.dao.AuthorDao;
 import ru.isakaev.model.Author;
 
@@ -16,26 +17,30 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Author> getAll(){
         return authorDao.getAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Author getAuthor(int id){
         Author author = authorDao.getById(id).orElse(null);
         return author;
     }
 
     @Override
+    @Transactional
     public Author saveAuthor(String name){
-        Author author = authorDao.getAll().stream().filter(a -> a.getName().equalsIgnoreCase(name)).findAny().orElse(null);
-        if (author != null){
-            return author;
+        List<Author> author = authorDao.findByName(name);
+        if (!author.isEmpty()){
+            return author.get(0);
         }
         return authorDao.save(new Author(name));
     }
 
     @Override
+    @Transactional
     public void deleteAuthor(int id){
         authorDao.deleteById(id);
     }

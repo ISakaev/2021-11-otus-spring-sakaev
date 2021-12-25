@@ -14,6 +14,8 @@ public class Author {
     @Column(name = "name")
     private String name;
 
+
+
     public Author(String name) {
         this.name = name;
     }
@@ -21,5 +23,9 @@ public class Author {
     public Author(Integer id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Author() {
+
     }
 }

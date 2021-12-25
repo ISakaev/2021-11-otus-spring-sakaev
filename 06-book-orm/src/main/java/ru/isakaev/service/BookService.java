@@ -10,7 +10,7 @@ public interface BookService {
 
     Book getBook(int id);
 
-    Book saveBook(String title, String AuthorName, String genreName);
+    Book saveBook(String title, String AuthorName, String genreName, List<String> comments);
 
     void deleteBook(int id);
 }

@@ -15,5 +15,5 @@ public interface AuthorDao {
 
     void deleteById(int id);
 
-    Author findByName(String name);
+    List<Author> findByName(String name);
 }

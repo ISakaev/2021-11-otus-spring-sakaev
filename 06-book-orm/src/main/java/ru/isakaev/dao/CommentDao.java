@@ -11,7 +11,7 @@ public interface CommentDao {
 
     Optional<Comment> getById(int id);
 
-    Comment findByName(String name);
+    List<Comment> findByName(String name);
 
     Comment save(Comment genre);
 

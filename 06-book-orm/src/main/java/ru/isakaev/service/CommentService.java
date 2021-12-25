@@ -8,9 +8,9 @@ public interface CommentService {
 
     List<Comment> getAll();
 
-    Comment getAuthor(int id);
+    Comment getComment(int id);
 
-    Comment saveAuthor(String name);
+    Comment saveComment(String name);
 
-    void deleteAuthor(int id);
+    void deleteComment(int id);
 }

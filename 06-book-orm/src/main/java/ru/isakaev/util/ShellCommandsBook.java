@@ -7,6 +7,8 @@ import org.springframework.shell.standard.ShellOption;
 import ru.isakaev.model.Book;
 import ru.isakaev.service.BookService;
 
+import java.util.List;
+
 @ShellComponent
 @RequiredArgsConstructor
 public class ShellCommandsBook {
@@ -20,14 +22,19 @@ public class ShellCommandsBook {
 
     @ShellMethod(value = "Get book by id", key = {"gb", "getBook"})
     public String getBook(@ShellOption Integer id){
-        return bookService.getBook(id).toString();
+        Book book = bookService.getBook(id);
+        if(book != null){
+            return book.toString();
+        }
+        return "Book with id " + id + " was not found";
     }
 
     @ShellMethod(value = "Save book", key = {"sb", "saveBook"})
-    public String saveBook(@ShellOption String name,
+    public String saveBook(@ShellOption String title,
                            @ShellOption String author,
+                           @ShellOption List<String> comments,  // --comments "Новый комментарий, Еще один комментарий"
                            @ShellOption String genre){
-        Book book = bookService.saveBook(name, author, genre);
+        Book book = bookService.saveBook(title, author, genre, comments);
         return "Book - " + book + " was saved";
     }
 
@@ -36,4 +43,4 @@ public class ShellCommandsBook {
         bookService.getAll().forEach(System.out::println);
         return "Application end";
     }
-}
+}//sb --title N --author A --genre G --comments "Новый комментарий, Еще один комментарий"

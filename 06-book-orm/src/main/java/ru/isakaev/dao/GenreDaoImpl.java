@@ -5,7 +5,6 @@ import ru.isakaev.model.Genre;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +22,7 @@ public class GenreDaoImpl implements GenreDao {
 
     @Override
     public List<Genre> getAll() {
-        TypedQuery<Genre> query = em.createQuery("select g from genre g", Genre.class);
+        TypedQuery<Genre> query = em.createQuery("select g from Genre g", Genre.class);
         return query.getResultList();
     }
 
@@ -33,16 +32,16 @@ public class GenreDaoImpl implements GenreDao {
     }
 
     @Override
-    public Genre findByName(String name) {
-        TypedQuery<Genre> query = em.createQuery("select g from genre g where g.name = :name",
+    public List<Genre> findByName(String name) {
+        TypedQuery<Genre> query = em.createQuery("select g from Genre g where g.name = :name",
                 Genre.class);
         query.setParameter("name", name);
-        return query.getSingleResult();
+        return query.getResultList();
     }
 
     @Override
     public Genre save(Genre genre) {
-        if (genre.getId() <= 0) {
+        if (genre.getId() == null) {
             em.persist(genre);
             return genre;
         } else {
@@ -52,11 +51,7 @@ public class GenreDaoImpl implements GenreDao {
 
     @Override
     public void deleteById(int id) {
-//        Genre genre = em.find(Genre.class, id);
-//        em.remove(genre);
-        Query query = em.createQuery("DELETE FROM genre g where g.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        Genre genre = em.find(Genre.class, id);
+        em.remove(genre);
     }
-
 }

@@ -11,7 +11,7 @@ public interface GenreDao {
 
     Optional<Genre> getById(int id);
 
-    Genre findByName(String name);
+    List<Genre> findByName(String name);
 
     Genre save(Genre genre);
 

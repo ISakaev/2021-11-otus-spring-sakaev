@@ -5,7 +5,6 @@ import ru.isakaev.model.Comment;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +21,7 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        TypedQuery<Comment> query = em.createQuery("select c from comment c", Comment.class);
+        TypedQuery<Comment> query = em.createQuery("select c from Comment c", Comment.class);
         return query.getResultList();
     }
 
@@ -32,16 +31,16 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public Comment findByName(String name) {
-        TypedQuery<Comment> query = em.createQuery("select c from comment c where c.name = :name",
+    public List<Comment> findByName(String text) {
+        TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.text = :text",
                 Comment.class);
-        query.setParameter("name", name);
-        return query.getSingleResult();
+        query.setParameter("text", text);
+        return query.getResultList();
     }
 
     @Override
     public Comment save(Comment comment) {
-        if (comment.getId() <= 0) {
+        if (comment.getId() == null) {
             em.persist(comment);
             return comment;
         } else {
@@ -51,12 +50,8 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public void deleteById(int id) {
-//        Comment comment = em.find(Comment.class, id);
-//        em.remove(comment);
-        Query query = em.createQuery("DELETE FROM comment c where c.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
-
+        Comment comment = em.find(Comment.class, id);
+        em.remove(comment);
     }
 
 }

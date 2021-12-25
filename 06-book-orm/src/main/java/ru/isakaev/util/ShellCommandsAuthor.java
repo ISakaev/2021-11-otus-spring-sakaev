@@ -20,7 +20,11 @@ public class ShellCommandsAuthor {
 
     @ShellMethod(value = "Get author by id", key = {"ga", "getAuthor"})
     public String getAuthor(@ShellOption Integer id){
-        return authorService.getAuthor(id).toString();
+        Author author = authorService.getAuthor(id);
+        if(author != null){
+            return author.toString();
+        }
+        return "Author with id " + id + " was not found";
     }
 
     @ShellMethod(value = "Save author", key = {"sa", "saveAuthor"})
