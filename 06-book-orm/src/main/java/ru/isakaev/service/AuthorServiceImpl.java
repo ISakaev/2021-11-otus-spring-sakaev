@@ -17,13 +17,11 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Author> getAll(){
         return authorDao.getAll();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Author getAuthor(int id){
         Author author = authorDao.getById(id).orElse(null);
         return author;
@@ -40,7 +38,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    @Transactional
     public void deleteAuthor(int id){
         authorDao.deleteById(id);
     }

@@ -8,7 +8,6 @@ import ru.isakaev.model.Comment;
 import java.util.List;
 
 @Service
-@Transactional
 public class CommentServiceImpl implements CommentService {
 
     private final CommentDao commentDao;
@@ -18,13 +17,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Comment> getAll() {
         return commentDao.getAll();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Comment getComment(int id) {
         Comment comment = commentDao.getById(id).orElse(null);
         return comment;
@@ -41,7 +38,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional
     public void deleteComment(int id) {
         commentDao.deleteById(id);
     }

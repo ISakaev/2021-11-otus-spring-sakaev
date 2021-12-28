@@ -4,15 +4,12 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
-//@NamedEntityGraphs(value = {
-        @NamedEntityGraph(name = "book-author-entity-graph",
-        attributeNodes = {@NamedAttributeNode("author")})
-//        ,
-//        @NamedEntityGraph(name = "book-genre-entity-graph",
-//                attributeNodes = {@NamedAttributeNode("genre")})})
+@NamedEntityGraph(name = "book-author-entity-graph",
+        attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genre")})
 public class Book {
 
     @Id
@@ -21,7 +18,6 @@ public class Book {
     @Column(name = "name")
     private String title;
 
-
     @OneToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id")
     private Author author;
@@ -29,25 +25,42 @@ public class Book {
     @OneToOne(targetEntity = Genre.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "genre_id")
     private Genre genre;
-// @Fetch(FetchMode.SUBSELECT)
+
     @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
-    private List<Comment> comment;
+    private List<Comment> comments;
 
-    public Book(Integer id, String title, Author author, Genre genre) {
+    public Book(Integer id, String title, Author author, Genre genre, List<Comment> comments) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.genre = genre;
+        this.comments = comments;
     }
 
-    public Book(String title, Author author, Genre genre, List<Comment> comment) {
+    public Book(String title, Author author, Genre genre, List<Comment> comments) {
         this.title = title;
         this.author = author;
         this.genre = genre;
-        this.comment = comment;
+        this.comments = comments;
     }
 
     public Book() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(id, book.id) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(genre, book.genre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, author, genre);
     }
 }

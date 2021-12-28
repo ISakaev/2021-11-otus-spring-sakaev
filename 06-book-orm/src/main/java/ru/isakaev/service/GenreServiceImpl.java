@@ -8,7 +8,6 @@ import ru.isakaev.model.Genre;
 import java.util.List;
 
 @Service
-@Transactional
 public class GenreServiceImpl implements GenreService {
 
     private final GenreDao genreDao;
@@ -18,13 +17,11 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Genre> getAll() {
         return genreDao.getAll();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Genre getGenre(int id) {
         return genreDao.getById(id).orElse(null);
     }
@@ -40,7 +37,6 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    @Transactional
     public void deleteGenre(int id) {
         genreDao.deleteById(id);
     }

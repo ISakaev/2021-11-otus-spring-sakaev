@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class BookServiceImpl implements BookService {
 
     private final BookDao bookDao;
@@ -26,13 +25,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Book> getAll() {
         return bookDao.getAll();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Book getBook(int id) {
         return bookDao.getById(id).orElse(null);
     }
@@ -40,18 +37,16 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public Book saveBook(String title, String authorName, String genreName, List<String> commentText) {
-
-//        Book book = bookDao.getAll().stream().filter(g -> (g.getTitle().equalsIgnoreCase(title)&&
-//                                                            g.getAuthor().getName().equalsIgnoreCase(authorName)&&
-//                                                            g.getGenre().getName().equalsIgnoreCase(genreName))).findAny().orElse(null);
-//        if (book != null){
-//            return book;
-//        }
-//        Book newBook = new Book(title, authorService.saveAuthor(authorName), genreService.saveGenre(genreName));
+        Book book = bookDao.findByName(title);
         List<Comment> collect = commentText.stream().map(c -> commentService.saveComment(c)).collect(Collectors.toList());
-//        Book newBook = new Book(title, new Author(3, authorName), new Genre(3,genreName), collect);
+        // List<Comment> не учитываем при сравнении объектов
+        if (book != null && book.getAuthor().getName().equalsIgnoreCase(authorName)
+                && book.getGenre().getName().equalsIgnoreCase(genreName)){
+            List<Comment> bookComments = book.getComments();
+            collect.stream().filter(c -> !bookComments.contains(c)).forEach(com -> book.getComments().add(com));
+            return book;
+        }
         Book newBook = new Book(title, authorService.saveAuthor(authorName), genreService.saveGenre(genreName), collect);
-
         return bookDao.save(newBook);
     }
 
