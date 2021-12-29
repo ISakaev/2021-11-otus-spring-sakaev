@@ -43,4 +43,4 @@ public class ShellCommandsBook {
         bookService.getAll().forEach(System.out::println);
         return "Application end";
     }
-}//sb --title N --author A --genre G --comments "Новый комментарий, Еще один комментарий"
+}

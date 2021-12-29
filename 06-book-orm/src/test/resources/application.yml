@@ -7,6 +7,5 @@ spring:
   sql:
     init:
       mode: always
-#      data-locations: data-test.sql
   main:
     allow-circular-references: true
