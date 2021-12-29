@@ -11,7 +11,7 @@ public interface BookDao {
 
     Optional<Book> getById(int id);
 
-    Book findByName(String title);
+    List<Book> findByName(String title);
 
     Book save(Book book);
 

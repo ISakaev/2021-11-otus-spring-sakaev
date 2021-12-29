@@ -34,12 +34,11 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Book findByName(String title) {
-
+    public List<Book> findByName(String title) {
         TypedQuery<Book> query = em.createQuery("select b from Book b where b.title = :title",
                 Book.class);
         query.setParameter("title", title);
-        return query.getSingleResult();
+        return query.getResultList();
     }
 
     @Override

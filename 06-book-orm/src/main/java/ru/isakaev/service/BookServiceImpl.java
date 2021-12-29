@@ -37,11 +37,12 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public Book saveBook(String title, String authorName, String genreName, List<String> commentText) {
-        Book book = bookDao.findByName(title);
+        List<Book> books = bookDao.findByName(title);
         List<Comment> collect = commentText.stream().map(c -> commentService.saveComment(c)).collect(Collectors.toList());
         // List<Comment> не учитываем при сравнении объектов
-        if (book != null && book.getAuthor().getName().equalsIgnoreCase(authorName)
-                && book.getGenre().getName().equalsIgnoreCase(genreName)){
+        if (!books.isEmpty() && books.get(0).getAuthor().getName().equalsIgnoreCase(authorName)
+                && books.get(0).getGenre().getName().equalsIgnoreCase(genreName)){
+            Book book = books.get(0);
             List<Comment> bookComments = book.getComments();
             collect.stream().filter(c -> !bookComments.contains(c)).forEach(com -> book.getComments().add(com));
             return book;

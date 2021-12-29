@@ -10,6 +10,7 @@ import ru.isakaev.model.Book;
 import ru.isakaev.model.Comment;
 import ru.isakaev.model.Genre;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -56,7 +57,7 @@ class BookServiceImplTest {
 
     @Test
     void shouldSaveAvailableBook() {
-        when(bookDao.findByName("Название книги")).thenReturn(book);
+        when(bookDao.findByName("Название книги")).thenReturn(List.of(book));
         when(commentService.saveComment("Первый комментарий")).thenReturn(new Comment(1, "Первый комментарий"));
         when(commentService.saveComment("Второй комментарий")).thenReturn(new Comment(2, "Второй комментарий"));
 
@@ -70,7 +71,7 @@ class BookServiceImplTest {
         Genre genre = new Genre(1, "Жанр");
         Comment comment1 = new Comment(1, "Первый комментарий");
         Comment comment2 = new Comment(2, "Второй комментарий");
-        when(bookDao.getAll()).thenReturn(List.of(book));
+        when(bookDao.findByName("Новое название книги")).thenReturn(Collections.EMPTY_LIST);
         when(authorService.saveAuthor("Автор")).thenReturn(author);
         when(genreService.saveGenre("Жанр")).thenReturn(genre);
         when(bookDao.save(new Book("Новое название книги", author, genre, List.of(comment1,comment2)))).

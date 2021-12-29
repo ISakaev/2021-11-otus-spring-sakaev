@@ -32,7 +32,7 @@ public class ShellCommandsBook {
     @ShellMethod(value = "Save book", key = {"sb", "saveBook"})
     public String saveBook(@ShellOption String title,
                            @ShellOption String author,
-                           @ShellOption List<String> comments,  // --comments "Новый комментарий, Еще один комментарий"
+                           @ShellOption(defaultValue = "") List<String> comments,  // --comments "Новый комментарий, Еще один комментарий"
                            @ShellOption String genre){
         Book book = bookService.saveBook(title, author, genre, comments);
         return "Book - " + book + " was saved";

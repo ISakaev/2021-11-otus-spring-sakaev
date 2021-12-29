@@ -25,10 +25,6 @@ public class Author {
         this.name = name;
     }
 
-    public Author(Integer id) {
-        this.id = id;
-    }
-
     public Author() {
 
     }
