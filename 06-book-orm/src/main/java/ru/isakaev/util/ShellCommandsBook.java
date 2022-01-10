@@ -40,7 +40,7 @@ public class ShellCommandsBook {
 
     @ShellMethod(value = "Delete book", key = {"db", "deleteBookById"})
     public String deleteBook(@ShellOption Integer id){
-        bookService.getAll().forEach(System.out::println);
-        return "Application end";
+        bookService.deleteBook(id);
+        return "Book - " + id + " was deleted";
     }
-}
+}//sb --title NameBook --author NameAuthor --genre NameGenre --comments "Новый комментарий, Еще один комментарий"
