@@ -21,13 +21,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Book> getAll() {
         return bookDao.getAll();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Book getBook(int id) {
         return bookDao.getById(id).orElse(null);
     }
@@ -54,7 +52,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public void deleteBook(int id) {
         bookDao.deleteById(id);
     }
