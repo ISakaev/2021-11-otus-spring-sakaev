@@ -43,7 +43,7 @@ class BookServiceImplTest {
     @Test
     void shouldGetBookByIdFromService() {
         bookService.getBook(book.getId());
-        verify(bookRepository).findById(1);
+        verify(bookRepository).findByIdWithLazyFields(1);
     }
 
     @Test
