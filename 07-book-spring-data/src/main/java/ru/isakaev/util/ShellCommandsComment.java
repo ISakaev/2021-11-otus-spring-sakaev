@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import ru.isakaev.model.Author;
 import ru.isakaev.model.Comment;
 import ru.isakaev.service.CommentService;
+
+import java.util.List;
 
 @ShellComponent
 @RequiredArgsConstructor
@@ -31,6 +34,16 @@ public class ShellCommandsComment {
     public String saveComment(@ShellOption String text){
         Comment comment = commentService.saveComment(text);
         return "Author " + comment.toString() + " was saved";
+    }
+
+    @ShellMethod(value = "Get comment by contain text", key = {"gcc", "getCommentContainContext"})
+    public void getCommentContainContext(@ShellOption String text){
+        List<Comment> comments = commentService.findByTextContains(text);
+        if (comments.isEmpty()){
+            System.out.println("Comment with text contain - " + text + " was not found");
+        }else {
+            comments.forEach(System.out::println);
+        }
     }
 
     @ShellMethod(value = "Delete comment by id", key = {"dc", "deleteComment"})

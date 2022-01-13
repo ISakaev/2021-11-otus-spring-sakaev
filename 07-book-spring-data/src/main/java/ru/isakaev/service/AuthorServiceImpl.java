@@ -23,8 +23,12 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author getAuthor(int id){
-        Author author = authorRepository.getById(id);
-        return author;
+        return authorRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Author> findByNameContainText(String text) {
+        return authorRepository.findByNameContains(text);
     }
 
     @Override

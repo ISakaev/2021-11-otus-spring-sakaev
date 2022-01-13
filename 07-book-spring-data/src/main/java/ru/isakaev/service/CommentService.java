@@ -8,6 +8,8 @@ public interface CommentService {
 
     List<Comment> getAll();
 
+    List<Comment> findByTextContains(String text);
+
     Comment getComment(int id);
 
     Comment saveComment(String name);

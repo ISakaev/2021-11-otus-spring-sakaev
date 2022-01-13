@@ -3,9 +3,11 @@ package ru.isakaev.dao;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import ru.isakaev.model.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
@@ -13,8 +15,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     @EntityGraph(value = "book-author-entity-graph")
     @Query("SELECT b FROM Book b JOIN FETCH b.comments")
-//    @Query("SELECT b FROM Book b")
     List<Book> findBooksWithLazyFields();
 
-    // List comment by bookId with like "комментарий"
+    @EntityGraph(value = "book-author-entity-graph")
+    @Query("SELECT b FROM Book b JOIN FETCH b.comments where b.id =:id")
+    Optional<Book> findByIdWithLazyFields(@Param("id") Integer id);
 }

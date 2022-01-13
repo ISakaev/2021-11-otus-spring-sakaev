@@ -7,6 +7,8 @@ import org.springframework.shell.standard.ShellOption;
 import ru.isakaev.model.Author;
 import ru.isakaev.service.AuthorService;
 
+import java.util.List;
+
 @ShellComponent
 @RequiredArgsConstructor
 public class ShellCommandsAuthor {
@@ -25,6 +27,16 @@ public class ShellCommandsAuthor {
             return author.toString();
         }
         return "Author with id " + id + " was not found";
+    }
+
+    @ShellMethod(value = "Get author by name contain text", key = {"gac", "getAuthorByNameContainContext"})
+    public void getAuthorByNameContainContext(@ShellOption String text){
+        List<Author> authors = authorService.findByNameContainText(text);
+        if (authors.isEmpty()){
+            System.out.println("Author with name contain - " + text + " was not found");
+        }else {
+            authors.forEach(System.out::println);
+        }
     }
 
     @ShellMethod(value = "Save author", key = {"sa", "saveAuthor"})

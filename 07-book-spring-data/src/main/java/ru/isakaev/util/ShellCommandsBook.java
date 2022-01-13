@@ -32,7 +32,7 @@ public class ShellCommandsBook {
     @ShellMethod(value = "Save book", key = {"sb", "saveBook"})
     public String saveBook(@ShellOption String title,
                            @ShellOption String author,
-                           @ShellOption(defaultValue = "") List<String> comments,  // --comments "Новый комментарий, Еще один комментарий"
+                           @ShellOption(defaultValue = "") List<String> comments,
                            @ShellOption String genre){
         Book book = bookService.saveBook(title, author, genre, comments);
         return "Book - " + book + " was saved";
@@ -43,4 +43,4 @@ public class ShellCommandsBook {
         bookService.deleteBook(id);
         return "Book - " + id + " was deleted";
     }
-}//sb --title NameBook --author NameAuthor --genre NameGenre --comments "Новый комментарий, Еще один комментарий"
+}

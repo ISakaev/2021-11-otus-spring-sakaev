@@ -21,15 +21,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Book> getAll() {
         return bookRepository.findBooksWithLazyFields();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Book getBook(int id) {
-        return bookRepository.findById(id).orElse(null);
+        return bookRepository.findByIdWithLazyFields(id).orElse(null);
+//        return bookRepository.findById(id).orElse(null);
     }
 
     @Override

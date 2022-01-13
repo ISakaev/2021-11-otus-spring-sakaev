@@ -23,8 +23,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment getComment(int id) {
-        Comment comment = commentRepository.findById(id).orElse(null);
-        return comment;
+        return commentRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Comment> findByTextContains(String text) {
+        return commentRepository.findByTextContains(text);
     }
 
     @Override
