@@ -28,7 +28,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book getBook(int id) {
         return bookRepository.findByIdWithLazyFields(id).orElse(null);
-//        return bookRepository.findById(id).orElse(null);
     }
 
     @Override
