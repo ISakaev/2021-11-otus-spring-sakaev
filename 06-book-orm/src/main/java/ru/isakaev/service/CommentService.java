@@ -1,16 +1,19 @@
 package ru.isakaev.service;
 
 import ru.isakaev.model.Comment;
+import ru.isakaev.model.dto.CommentDto;
 
 import java.util.List;
 
 public interface CommentService {
 
-    List<Comment> getAll();
+    List<CommentDto> getAll();
 
-    Comment getComment(int id);
+    Comment getComment(Long id);
+
+    List<Comment> getCommentsByBookId(Long id);
 
     Comment saveComment(String name);
 
-    void deleteComment(int id);
+    void deleteComment(Long id);
 }

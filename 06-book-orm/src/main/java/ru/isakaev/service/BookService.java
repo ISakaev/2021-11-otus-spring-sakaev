@@ -1,16 +1,17 @@
 package ru.isakaev.service;
 
 import ru.isakaev.model.Book;
+import ru.isakaev.model.dto.BookDto;
 
 import java.util.List;
 
 public interface BookService {
 
-    List<Book> getAll();
+    List<BookDto> getAll();
 
-    Book getBook(int id);
+    Book getBook(Long id);
 
-    Book saveBook(String title, String AuthorName, String genreName, List<String> comments);
+    Book saveBook(String title, String AuthorName, String genreName);
 
-    void deleteBook(int id);
+    void deleteBook(Long id);
 }

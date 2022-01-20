@@ -19,7 +19,7 @@ public class ShellCommandsAuthor {
     }
 
     @ShellMethod(value = "Get author by id", key = {"ga", "getAuthor"})
-    public String getAuthor(@ShellOption Integer id){
+    public String getAuthor(@ShellOption Long id){
         Author author = authorService.getAuthor(id);
         if(author != null){
             return author.toString();
@@ -34,7 +34,7 @@ public class ShellCommandsAuthor {
     }
 
     @ShellMethod(value = "Delete author by id", key = {"da", "deleteAuthor"})
-    public String deleteAuthor(@ShellOption Integer id){
+    public String deleteAuthor(@ShellOption Long id){
         authorService.deleteAuthor(id);
         return "Author with id - " + id + " was deleted";
     }

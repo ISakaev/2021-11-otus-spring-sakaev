@@ -3,7 +3,6 @@ package ru.isakaev.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -14,35 +13,30 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(name = "name")
     private String title;
 
-    @OneToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Author.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @OneToOne(targetEntity = Genre.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Genre.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    private List<Comment> comments;
 
-    public Book(Integer id, String title, Author author, Genre genre, List<Comment> comments) {
+    public Book(Long id, String title, Author author, Genre genre) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.genre = genre;
-        this.comments = comments;
     }
 
-    public Book(String title, Author author, Genre genre, List<Comment> comments) {
+    public Book(String title, Author author, Genre genre) {
         this.title = title;
         this.author = author;
         this.genre = genre;
-        this.comments = comments;
     }
 
     public Book() {
@@ -53,14 +47,19 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Objects.equals(id, book.id) &&
-                Objects.equals(title, book.title) &&
-                Objects.equals(author, book.author) &&
-                Objects.equals(genre, book.genre);
+        return Objects.equals(id, book.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, author, genre);
+        return Objects.hash(id);
     }
+//
+//    @Override
+//    public String toString() {
+//        return "Book{" +
+//                "id=" + id +
+//                ", title='" + title + '\'' +
+//                '}';
+//    }
 }

@@ -9,12 +9,12 @@ public interface BookDao {
 
     List<Book> getAll();
 
-    Optional<Book> getById(int id);
+    Optional<Book> getById(Long id);
 
     List<Book> findByName(String title);
 
     Book save(Book book);
 
-    void deleteById(int id);
+    void deleteById(Long id);
 
 }

@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.isakaev.dao.CommentDao;
 import ru.isakaev.model.Comment;
+import ru.isakaev.model.dto.CommentDto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -17,14 +19,23 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAll() {
-        return commentDao.getAll();
+    public List<CommentDto> getAll() {
+        List<Comment> comments = commentDao.getAll();
+        return comments.stream()
+                .map(comment -> new CommentDto(comment.getId(), comment.getText()))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Comment getComment(int id) {
+    public Comment getComment(Long id) {
         Comment comment = commentDao.getById(id).orElse(null);
         return comment;
+    }
+
+    @Override
+    public List<Comment> getCommentsByBookId(Long id) {
+        List<Comment> comments = commentDao.findByBookId(id);
+        return comments;
     }
 
     @Override
@@ -38,7 +49,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(int id) {
+    public void deleteComment(Long id) {
         commentDao.deleteById(id);
     }
 }

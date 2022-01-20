@@ -18,9 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(GenreDaoImpl.class)
 class GenreDaoImplTest {
 
-    private static final int EXPECTED_GENRE_COUNT = 4;
+    private static final long EXPECTED_GENRE_COUNT = 4;
 
-    private static final int FIRST_GENRE_ID = 1;
+    private static final long FIRST_GENRE_ID = 1;
 
     @Autowired
     private GenreDaoImpl repositoryJPA;
@@ -55,7 +55,7 @@ class GenreDaoImplTest {
 
     @Test
     void shouldInsertExistGenre() {
-        repositoryJPA.save(new Genre(1,"Самый первый жанр"));
+        repositoryJPA.save(new Genre(1L,"Самый первый жанр"));
         assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_GENRE_COUNT);
     }
 

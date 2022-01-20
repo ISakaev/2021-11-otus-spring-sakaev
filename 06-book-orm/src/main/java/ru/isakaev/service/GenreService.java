@@ -8,9 +8,9 @@ public interface GenreService {
 
     List<Genre> getAll();
 
-    Genre getGenre(int id);
+    Genre getGenre(Long id);
 
     Genre saveGenre(String name);
 
-    void deleteGenre(int id);
+    void deleteGenre(Long id);
 }

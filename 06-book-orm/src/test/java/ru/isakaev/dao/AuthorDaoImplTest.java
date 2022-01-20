@@ -18,9 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(AuthorDaoImpl.class)
 class AuthorDaoImplTest {
 
-    private static final int EXPECTED_AUTHORS_COUNT = 4;
+    private static final long EXPECTED_AUTHORS_COUNT = 4;
 
-    private static final int FIRST_AUTHOR_ID = 1;
+    private static final long FIRST_AUTHOR_ID = 1;
 
     @Autowired
     private AuthorDaoImpl repositoryJPA;
@@ -55,7 +55,7 @@ class AuthorDaoImplTest {
 
     @Test
     void shouldInsertExistAuthor() {
-        repositoryJPA.save(new Author(1,"Самый первый автор"));
+        repositoryJPA.save(new Author(1L,"Самый первый автор"));
         assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_AUTHORS_COUNT);
     }
 

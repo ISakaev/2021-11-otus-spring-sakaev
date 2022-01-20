@@ -3,7 +3,6 @@ package ru.isakaev.dao;
 import org.springframework.stereotype.Repository;
 import ru.isakaev.model.Book;
 
-import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -22,14 +21,15 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        EntityGraph<?> authorEntityGraph = em.getEntityGraph("book-author-entity-graph");
-        TypedQuery<Book> query = em.createQuery("select distinct b from Book b join fetch b.comments", Book.class);
-        query.setHint("javax.persistence.fetchgraph", authorEntityGraph);
+//        EntityGraph<?> authorEntityGraph = em.getEntityGraph("book-author-entity-graph");
+//        TypedQuery<Book> query = em.createQuery("select distinct b from Book b join fetch b.comments", Book.class);
+        TypedQuery<Book> query = em.createQuery("select distinct b from Book b", Book.class);
+//        query.setHint("javax.persistence.fetchgraph", authorEntityGraph);
         return query.getResultList();
     }
 
     @Override
-    public Optional<Book> getById(int id) {
+    public Optional<Book> getById(Long id) {
         return Optional.ofNullable(em.find(Book.class, id));
     }
 
@@ -52,7 +52,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         Book book = em.find(Book.class, id);
         em.remove(book);
     }

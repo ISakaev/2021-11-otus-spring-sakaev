@@ -10,7 +10,6 @@ import ru.isakaev.model.Author;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,7 +26,7 @@ class AuthorServiceImplTest {
     @BeforeEach
     void setUp() {
         authorService = new AuthorServiceImpl(authorDao);
-        author = new Author(1,"Первый автор");
+        author = new Author(1L,"Первый автор");
     }
 
     @Test
@@ -39,7 +38,7 @@ class AuthorServiceImplTest {
     @Test
     void shouldGetAuthorByIdFromService() {
         authorService.getAuthor(author.getId());
-        verify(authorDao).getById(1);
+        verify(authorDao).getById(1L);
     }
 
     @Test
@@ -52,7 +51,7 @@ class AuthorServiceImplTest {
     @Test
     void shouldSaveUnavailableAuthor() {
         when(authorDao.getAll()).thenReturn(List.of(author));
-        Author secondAuthor = new Author(2, "Новый автор");
+        Author secondAuthor = new Author(2L, "Новый автор");
         when(authorDao.save(new Author("Новый автор"))).thenReturn(secondAuthor);
         Author newAuthor = authorService.saveAuthor("Новый автор");
         assertThat(newAuthor.getId()).isEqualTo(secondAuthor.getId());
@@ -61,6 +60,6 @@ class AuthorServiceImplTest {
     @Test
     void shouldDeleteAuthor() {
         authorService.deleteAuthor(author.getId());
-        verify(authorDao).deleteById(1);
+        verify(authorDao).deleteById(1L);
     }
 }

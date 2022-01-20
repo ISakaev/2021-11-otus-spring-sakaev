@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.isakaev.dao.BookDao;
 import ru.isakaev.model.Author;
 import ru.isakaev.model.Book;
-import ru.isakaev.model.Comment;
 import ru.isakaev.model.Genre;
+import ru.isakaev.model.dto.BookDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,38 +21,33 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getAll() {
-        return bookDao.getAll();
+    public List<BookDto> getAll() {
+        List<Book> all = bookDao.getAll();
+        return all.stream().map(book -> new BookDto(book.getId(), book.getTitle())).collect(Collectors.toList());
+
     }
 
     @Override
-    public Book getBook(int id) {
+    public Book getBook(Long id) {
         return bookDao.getById(id).orElse(null);
     }
 
     @Override
     @Transactional
-    public Book saveBook(String title, String authorName, String genreName, List<String> commentText) {
+    public Book saveBook(String title, String authorName, String genreName) {
         List<Book> books = bookDao.findByName(title);
-        List<Comment> collect = commentText.stream().map(c -> new Comment(c)).collect(Collectors.toList());
         // List<Comment> не учитываем при сравнении объектов
         if (!books.isEmpty() && books.get(0).getAuthor().getName().equalsIgnoreCase(authorName)
                 && books.get(0).getGenre().getName().equalsIgnoreCase(genreName)){
             Book book = books.get(0);
-            List<Comment> bookComments = book.getComments();
-            for (Comment comment: bookComments) {      // используем цикл для правильной последовательности создания коментариев в тестах
-                if(!bookComments.contains(comment)){
-                    book.getComments().add(comment);
-                }
-            }
             return book;
         }
-        Book newBook = new Book(title, new Author(authorName), new Genre(genreName), collect);
+        Book newBook = new Book(title, new Author(authorName), new Genre(genreName));
         return bookDao.save(newBook);
     }
 
     @Override
-    public void deleteBook(int id) {
+    public void deleteBook(Long id) {
         bookDao.deleteById(id);
     }
 }

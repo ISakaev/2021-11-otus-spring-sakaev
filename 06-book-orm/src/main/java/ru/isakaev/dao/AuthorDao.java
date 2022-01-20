@@ -9,11 +9,11 @@ public interface AuthorDao {
 
     List<Author> getAll();
 
-    Optional<Author> getById(int id);
+    Optional<Author> getById(Long id);
 
     Author save(Author author);
 
-    void deleteById(int id);
+    void deleteById(Long id);
 
     List<Author> findByName(String name);
 }

@@ -9,11 +9,11 @@ public interface GenreDao {
 
     List<Genre> getAll();
 
-    Optional<Genre> getById(int id);
+    Optional<Genre> getById(Long id);
 
     List<Genre> findByName(String name);
 
     Genre save(Genre genre);
 
-    void deleteById(int id);
+    void deleteById(Long id);
 }

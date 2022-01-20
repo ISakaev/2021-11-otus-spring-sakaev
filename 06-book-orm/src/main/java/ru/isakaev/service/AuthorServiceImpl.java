@@ -22,7 +22,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author getAuthor(int id){
+    public Author getAuthor(Long id){
         Author author = authorDao.getById(id).orElse(null);
         return author;
     }
@@ -38,7 +38,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void deleteAuthor(int id){
+    public void deleteAuthor(Long id){
         authorDao.deleteById(id);
     }
 }

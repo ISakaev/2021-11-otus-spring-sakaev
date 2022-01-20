@@ -26,7 +26,7 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public Optional<Comment> getById(int id) {
+    public Optional<Comment> getById(Long id) {
         return Optional.ofNullable(em.find(Comment.class, id));
     }
 
@@ -35,6 +35,14 @@ public class CommentDaoImpl implements CommentDao {
         TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.text = :text",
                 Comment.class);
         query.setParameter("text", text);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Comment> findByBookId(Long id) {
+        TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.book.id = :id",
+                Comment.class);
+        query.setParameter("id", id);
         return query.getResultList();
     }
 
@@ -49,7 +57,7 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         Comment comment = em.find(Comment.class, id);
         em.remove(comment);
     }

@@ -21,9 +21,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import({BookDaoImpl.class, AuthorDaoImpl.class, GenreDaoImpl.class, CommentDaoImpl.class})
 class BookDaoImplTest {
 
-    private static final int EXPECTED_BOOKS_COUNT = 3;
+    private static final long EXPECTED_BOOKS_COUNT = 3;
 
-    private static final int FIRST_BOOK_ID = 1;
+    private static final long FIRST_BOOK_ID = 1;
 
     @Autowired
     private BookDaoImpl repositoryJPA;
@@ -62,8 +62,7 @@ class BookDaoImplTest {
         Genre genre = genreRepositoryJPA.save(new Genre("New genre"));
         Comment comment = commentRepositoryJPA.save(new Comment("New comment"));
         Comment comment1 = commentRepositoryJPA.save(new Comment("The newest comment"));
-        repositoryJPA.save(new Book("New title", author, genre,
-                List.of(comment, comment1)));
+        repositoryJPA.save(new Book("New title", author, genre));
         assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_BOOKS_COUNT + 1);
     }
 
@@ -73,8 +72,7 @@ class BookDaoImplTest {
         Genre genre = genreRepositoryJPA.save(new Genre("New genre"));
         Comment comment = commentRepositoryJPA.save(new Comment("New comment"));
         Comment comment1 = commentRepositoryJPA.save(new Comment("The newest comment"));
-        repositoryJPA.save(new Book(1,"New title", author, genre,
-                List.of(comment, comment1)));
+        repositoryJPA.save(new Book(1L,"New title", author, genre));
         assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_BOOKS_COUNT);
     }
 

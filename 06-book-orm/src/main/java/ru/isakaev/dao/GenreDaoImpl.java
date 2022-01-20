@@ -26,7 +26,7 @@ public class GenreDaoImpl implements GenreDao {
     }
 
     @Override
-    public Optional<Genre> getById(int id) {
+    public Optional<Genre> getById(Long id) {
         return Optional.ofNullable(em.find(Genre.class, id));
     }
 
@@ -49,7 +49,7 @@ public class GenreDaoImpl implements GenreDao {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         Genre genre = em.find(Genre.class, id);
         em.remove(genre);
     }

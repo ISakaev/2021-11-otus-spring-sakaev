@@ -34,7 +34,7 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public Optional<Author> getById(int id) {
+    public Optional<Author> getById(Long id) {
         return Optional.ofNullable(em.find(Author.class, id));
     }
 
@@ -49,7 +49,7 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         Author author = em.find(Author.class, id);
         em.remove(author);
     }

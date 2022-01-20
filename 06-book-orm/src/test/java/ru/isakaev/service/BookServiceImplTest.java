@@ -30,8 +30,7 @@ class BookServiceImplTest {
     @BeforeEach
     void setUp() {
         bookService = new BookServiceImpl(bookDao);
-        book = new Book(1,"Название книги", new Author(1,"Автор"), new Genre(1, "Жанр"),
-                List.of(new Comment(1, "Первый комментарий"), new Comment(2, "Второй комментарий")));
+        book = new Book(1L,"Название книги", new Author(1L,"Автор"), new Genre(1L, "Жанр"));
     }
 
     @Test
@@ -43,13 +42,13 @@ class BookServiceImplTest {
     @Test
     void shouldGetBookByIdFromService() {
         bookService.getBook(book.getId());
-        verify(bookDao).getById(1);
+        verify(bookDao).getById(1L);
     }
 
     @Test
     void shouldSaveAvailableBook() {
         when(bookDao.findByName("Название книги")).thenReturn(List.of(book));
-        Book newBook = bookService.saveBook("Название книги", "Автор", "Жанр", List.of("Первый комментарий", "Второй комментарий"));
+        Book newBook = bookService.saveBook("Название книги", "Автор", "Жанр");
         assertThat(newBook.getId()).isEqualTo(book.getId());
     }
 
@@ -60,15 +59,15 @@ class BookServiceImplTest {
         Comment comment1 = new Comment("Первый комментарий");
         Comment comment2 = new Comment("Второй комментарий");
         when(bookDao.findByName("Новое название книги")).thenReturn(Collections.EMPTY_LIST);
-        when(bookDao.save(new Book("Новое название книги", author, genre, List.of(comment1,comment2)))).
-                thenReturn(new Book(2, "Новое название книги", author, genre, List.of(comment1,comment2)));
-        Book newBook = bookService.saveBook("Новое название книги", "Автор", "Жанр", List.of("Первый комментарий", "Второй комментарий"));
+        when(bookDao.save(new Book("Новое название книги", author, genre))).
+                thenReturn(new Book(2L, "Новое название книги", author, genre));
+        Book newBook = bookService.saveBook("Новое название книги", "Автор", "Жанр");
         assertThat(newBook.getId()).isEqualTo(2);
     }
 
     @Test
     void shouldDeleteBook() {
         bookService.deleteBook(book.getId());
-        verify(bookDao).deleteById(1);
+        verify(bookDao).deleteById(1L);
     }
 }

@@ -19,7 +19,7 @@ public class ShellCommandsGenre {
     }
 
     @ShellMethod(value = "Get genre by id", key = {"gg", "getGenre"})
-    public String getGenre(@ShellOption Integer id){
+    public String getGenre(@ShellOption Long id){
         Genre genre = genreService.getGenre(id);
         if(genre != null){
             return genre.toString();
@@ -34,7 +34,7 @@ public class ShellCommandsGenre {
     }
 
     @ShellMethod(value = "Delete genre by id", key = {"dg", "deleteGenreById"})
-    public String deleteGenre(@ShellOption Integer id){
+    public String deleteGenre(@ShellOption Long id){
         genreService.deleteGenre(id);
         return "Genre with id - " + id + " was deleted";
     }

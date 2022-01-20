@@ -26,7 +26,7 @@ class GenreServiceImplTest {
     @BeforeEach
     void setUp() {
         genreService = new GenreServiceImpl(genreDao);
-        genre = new Genre(1,"Жанр");
+        genre = new Genre(1L,"Жанр");
     }
 
     @Test
@@ -38,7 +38,7 @@ class GenreServiceImplTest {
     @Test
     void shouldGetGenreByIdFromService() {
         genreService.getGenre(genre.getId());
-        verify(genreDao).getById(1);
+        verify(genreDao).getById(1L);
     }
 
     @Test
@@ -51,7 +51,7 @@ class GenreServiceImplTest {
     @Test
     void shouldSaveUnavailableAuthor() {
         when(genreDao.getAll()).thenReturn(List.of(genre));
-        Genre secondGenre = new Genre(2, "Новый жанр");
+        Genre secondGenre = new Genre(2L, "Новый жанр");
         when(genreDao.save(new Genre("Новый жанр"))).thenReturn(secondGenre);
         Genre newGenre = genreService.saveGenre("Новый жанр");
         assertThat(newGenre.getId()).isEqualTo(secondGenre.getId());
@@ -60,6 +60,6 @@ class GenreServiceImplTest {
     @Test
     void shouldDeleteGenre() {
         genreService.deleteGenre(genre.getId());
-        verify(genreDao).deleteById(1);
+        verify(genreDao).deleteById(1L);
     }
 }
