@@ -29,14 +29,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getBook(Long id) {
-        return bookDao.getById(id).orElse(null);
+        return bookDao.getById(id);
     }
 
     @Override
     @Transactional
     public Book saveBook(String title, String authorName, String genreName) {
         List<Book> books = bookDao.findByName(title);
-        // List<Comment> не учитываем при сравнении объектов
         if (!books.isEmpty() && books.get(0).getAuthor().getName().equalsIgnoreCase(authorName)
                 && books.get(0).getGenre().getName().equalsIgnoreCase(genreName)){
             Book book = books.get(0);
@@ -47,6 +46,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public void deleteBook(Long id) {
         bookDao.deleteById(id);
     }

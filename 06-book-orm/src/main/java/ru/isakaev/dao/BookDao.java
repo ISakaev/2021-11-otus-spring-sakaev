@@ -3,13 +3,12 @@ package ru.isakaev.dao;
 import ru.isakaev.model.Book;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BookDao {
 
     List<Book> getAll();
 
-    Optional<Book> getById(Long id);
+    Book getById(Long id);
 
     List<Book> findByName(String title);
 

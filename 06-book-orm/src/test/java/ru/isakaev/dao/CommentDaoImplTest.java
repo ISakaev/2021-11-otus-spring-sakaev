@@ -6,10 +6,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
+import ru.isakaev.model.Book;
 import ru.isakaev.model.Comment;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,10 +35,9 @@ class CommentDaoImplTest {
 
     @Test
     void shouldGetExpectedCommentById() {
-        Optional<Comment> optionalActualComment = repositoryJPA.getById(FIRST_COMMENT_ID);
+        Comment optionalActualComment = repositoryJPA.getById(FIRST_COMMENT_ID);
         Comment expectedComment = em.find(Comment.class, FIRST_COMMENT_ID);
-        assertThat(optionalActualComment).isPresent().get()
-                .isEqualToComparingFieldByField(expectedComment);
+        assertThat(optionalActualComment).isEqualToComparingFieldByField(expectedComment);
     }
 
     @Test
@@ -53,11 +52,11 @@ class CommentDaoImplTest {
         assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_COMMENT_COUNT + 1);
     }
 
-//    @Test
-//    void shouldInsertExistComment() {
-//        repositoryJPA.save(new Comment(1,"Самый первый коментарий"));
-//        assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_COMMENT_COUNT);
-//    }
+    @Test
+    void shouldInsertExistComment() {
+        repositoryJPA.save(new Comment(1L,"Первый коментарий", new Book()));
+        assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_COMMENT_COUNT);
+    }
 
     @Test
     void shouldDeleteCommentById() {

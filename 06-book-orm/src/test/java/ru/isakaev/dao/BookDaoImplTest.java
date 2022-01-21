@@ -8,11 +8,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import ru.isakaev.model.Author;
 import ru.isakaev.model.Book;
-import ru.isakaev.model.Comment;
 import ru.isakaev.model.Genre;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,12 +26,6 @@ class BookDaoImplTest {
     @Autowired
     private BookDaoImpl repositoryJPA;
     @Autowired
-    private AuthorDaoImpl authorRepositoryJPA;
-    @Autowired
-    private GenreDaoImpl genreRepositoryJPA;
-    @Autowired
-    private CommentDaoImpl commentRepositoryJPA;
-    @Autowired
     private TestEntityManager em;
 
     @Test
@@ -44,9 +36,9 @@ class BookDaoImplTest {
 
     @Test
     void shouldGetExpectedBookById() {
-        Optional<Book> optionalActualBook = repositoryJPA.getById(FIRST_BOOK_ID);
+        Book optionalActualBook = repositoryJPA.getById(FIRST_BOOK_ID);
         Book expectedBook = em.find(Book.class, FIRST_BOOK_ID);
-        assertThat(optionalActualBook).isPresent().get()
+        assertThat(optionalActualBook)
                 .isEqualToComparingFieldByField(expectedBook);
     }
 
@@ -58,21 +50,13 @@ class BookDaoImplTest {
 
     @Test
     void shouldInsertBook() {
-        Author author = authorRepositoryJPA.save(new Author("New author"));
-        Genre genre = genreRepositoryJPA.save(new Genre("New genre"));
-        Comment comment = commentRepositoryJPA.save(new Comment("New comment"));
-        Comment comment1 = commentRepositoryJPA.save(new Comment("The newest comment"));
-        repositoryJPA.save(new Book("New title", author, genre));
+        repositoryJPA.save(new Book("New title", new Author("New author"), new Genre("New genre")));
         assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_BOOKS_COUNT + 1);
     }
 
     @Test
     void shouldInsertExistBook() {
-        Author author = authorRepositoryJPA.save(new Author("New author"));
-        Genre genre = genreRepositoryJPA.save(new Genre("New genre"));
-        Comment comment = commentRepositoryJPA.save(new Comment("New comment"));
-        Comment comment1 = commentRepositoryJPA.save(new Comment("The newest comment"));
-        repositoryJPA.save(new Book(1L,"New title", author, genre));
+        repositoryJPA.save(new Book(1L,"New title", new Author("New author"), new Genre("New genre")));
         assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_BOOKS_COUNT);
     }
 

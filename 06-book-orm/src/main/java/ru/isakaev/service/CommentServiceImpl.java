@@ -27,15 +27,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public Comment getComment(Long id) {
-        Comment comment = commentDao.getById(id).orElse(null);
+        Comment comment = commentDao.getById(id);
         return comment;
     }
 
     @Override
-    public List<Comment> getCommentsByBookId(Long id) {
+    @Transactional
+    public List<CommentDto> getCommentsByBookId(Long id) {
         List<Comment> comments = commentDao.findByBookId(id);
-        return comments;
+        List<CommentDto> dtoList = comments.stream().map(comment -> new CommentDto(comment.getId(), comment.getText())).collect(Collectors.toList());
+        return dtoList;
     }
 
     @Override

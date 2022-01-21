@@ -5,6 +5,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.isakaev.model.Comment;
+import ru.isakaev.model.dto.CommentDto;
 import ru.isakaev.service.CommentService;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class ShellCommandsComment {
 
     @ShellMethod(value = "Get comment by book id", key = {"gcb", "getCommentByBookId"})
     public void getCommentByBookId(@ShellOption Long id){
-        List<Comment> comment = commentService.getCommentsByBookId(id);
+        List<CommentDto> comment = commentService.getCommentsByBookId(id);
         comment.forEach(System.out::println);
     }
 

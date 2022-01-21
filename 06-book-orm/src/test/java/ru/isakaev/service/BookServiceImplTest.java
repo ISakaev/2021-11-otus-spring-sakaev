@@ -7,7 +7,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.isakaev.dao.BookDao;
 import ru.isakaev.model.Author;
 import ru.isakaev.model.Book;
-import ru.isakaev.model.Comment;
 import ru.isakaev.model.Genre;
 
 import java.util.Collections;
@@ -56,8 +55,6 @@ class BookServiceImplTest {
     void shouldSaveUnavailableBook() {
         Author author = new Author(null, "Автор");
         Genre genre = new Genre(null, "Жанр");
-        Comment comment1 = new Comment("Первый комментарий");
-        Comment comment2 = new Comment("Второй комментарий");
         when(bookDao.findByName("Новое название книги")).thenReturn(Collections.EMPTY_LIST);
         when(bookDao.save(new Book("Новое название книги", author, genre))).
                 thenReturn(new Book(2L, "Новое название книги", author, genre));

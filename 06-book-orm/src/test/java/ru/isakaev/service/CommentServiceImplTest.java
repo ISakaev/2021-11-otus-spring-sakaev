@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.isakaev.dao.CommentDao;
+import ru.isakaev.model.Author;
+import ru.isakaev.model.Book;
 import ru.isakaev.model.Comment;
+import ru.isakaev.model.Genre;
 
 import java.util.List;
 
@@ -26,7 +29,7 @@ class CommentServiceImplTest {
     @BeforeEach
     void setUp() {
         commentService = new CommentServiceImpl(commentDao);
-//        comment = new Comment(1,"Комментарий");
+        comment = new Comment(1L,"Комментарий",new Book(1L,"Название книги", new Author(1L,"Автор"), new Genre(1L, "Жанр")));
     }
 
     @Test
@@ -48,14 +51,14 @@ class CommentServiceImplTest {
         assertThat(newComment.getId()).isEqualTo(comment.getId());
     }
 
-//    @Test
-//    void shouldSaveUnavailableComment() {
-//        when(commentDao.getAll()).thenReturn(List.of(comment));
-//        Comment secondComment = new Comment(2, "Новый комментарий");
-//        when(commentDao.save(new Comment("Новый комментарий"))).thenReturn(secondComment);
-//        Comment newComment = commentService.saveComment("Новый комментарий");
-//        assertThat(newComment.getId()).isEqualTo(secondComment.getId());
-//    }
+    @Test
+    void shouldSaveUnavailableComment() {
+        when(commentDao.getAll()).thenReturn(List.of(comment));
+        Comment secondComment = new Comment("Новый комментарий");
+        when(commentDao.save(new Comment("Новый комментарий"))).thenReturn(secondComment);
+        Comment newComment = commentService.saveComment("Новый комментарий");
+        assertThat(newComment.getId()).isEqualTo(secondComment.getId());
+    }
 
     @Test
     void shouldDeleteComment() {
