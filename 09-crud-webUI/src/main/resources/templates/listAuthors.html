@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all persons</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .persons {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .persons tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .persons td:last-child, td:first-child {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+<h3>Persons:</h3>
+
+<table class="persons">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="author : ${authors}">
+        <td th:text="${author.id}">1</td>
+        <td th:text="${author.name}">John Doe</td>
+        <td>
+            <a href="editAuthor.html"  th:href="@{/author/__${author.id}__}">Edit</a>
+            <a href="listAuthors.html" th:href="@{/author/delete/__${author.id}__}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="editAuthor.html"  th:href="@{/author/__${author.id}__}">Save new Author</a>
+</body>
+</html>
