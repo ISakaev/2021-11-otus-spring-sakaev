@@ -10,11 +10,11 @@ public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(name = "name")
     private String name;
 
-    public Genre(Integer id, String name) {
+    public Genre(Long id, String name) {
         this.id = id;
         this.name = name;
     }

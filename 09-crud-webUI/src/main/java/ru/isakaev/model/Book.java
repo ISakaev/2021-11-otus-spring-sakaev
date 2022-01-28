@@ -15,35 +15,34 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(name = "name")
     private String title;
 
-    @OneToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Author.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @OneToOne(targetEntity = Genre.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Genre.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    private List<Comment> comments;
+//    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "book_id")
+//    private List<Comment> comments;
 
-    public Book(Integer id, String title, Author author, Genre genre, List<Comment> comments) {
+    public Book(Long id, String title, Author author, Genre genre) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.genre = genre;
-        this.comments = comments;
+//        this.comments = comments;
     }
 
-    public Book(String title, Author author, Genre genre, List<Comment> comments) {
+    public Book(String title, Author author, Genre genre) {
         this.title = title;
         this.author = author;
         this.genre = genre;
-        this.comments = comments;
     }
 
     public Book() {

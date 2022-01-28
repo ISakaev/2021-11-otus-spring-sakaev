@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface BookService {
 
-    List<Book> getAll();
+    List<Book> findAll();
 
-    Book getBook(int id);
+    Book getBook(long id);
 
-    Book saveBook(String title, String AuthorName, String genreName, List<String> comments);
+    Book saveBook(Book book);
 
-    void deleteBook(int id);
+    void deleteBook(long id);
 
 }

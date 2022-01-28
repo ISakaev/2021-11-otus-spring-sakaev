@@ -9,7 +9,7 @@ import ru.isakaev.model.Book;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookRepository extends JpaRepository<Book, Integer>{
+public interface BookRepository extends JpaRepository<Book, Long>{
 
     Book findByTitle(String name);
 
