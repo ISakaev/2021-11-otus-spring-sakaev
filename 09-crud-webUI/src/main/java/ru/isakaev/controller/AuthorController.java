@@ -21,25 +21,19 @@ public class AuthorController {
 
     @GetMapping("/authors")
     public String getAuthors(Model model){
-        List<Author> authors = authorService.getAll();
+        List<Author> authors = authorService.findAll();
         model.addAttribute("authors", authors);
-        return "listAuthors";
+        return "/author/listAuthors";
     }
 
-    @GetMapping("/author/{id}")
+    @GetMapping("/authors/{id}")
     public String getAuthor(@PathVariable("id") Long id,  Model model){
         Author author = authorService.getAuthor(id);
         model.addAttribute("author", author);
-        return "editAuthor";
+        return "/author/editAuthor";
     }
 
-    @PutMapping("/author")
-    public String getAuthor(@RequestParam("name") String name){
-        authorService.saveAuthor(new Author(name));
-        return "redirect:/authors";
-    }
-
-    @PostMapping("/author")
+    @PostMapping("/authors")
     public String saveAuthor(@RequestParam("id") int id, @RequestParam String name) {
         Author author = authorService.getAuthor((long) id);
         author.setName(name);
@@ -47,7 +41,20 @@ public class AuthorController {
         return "redirect:/authors";
     }
 
-    @GetMapping("/author/delete/{id}")
+    @GetMapping("/authors/new")
+    public String addAuthors(Model model){
+        Author author = new Author();
+        model.addAttribute("author", author);
+        return "/author/saveAuthor";
+    }
+
+    @PostMapping("/authors/new")
+    public String addAuthorsForm(@ModelAttribute("author") Author author){
+        authorService.saveAuthor(author);
+        return "redirect:/authors";
+    }
+
+    @GetMapping("/authors/delete/{id}")
     public String deleteAuthor(@PathVariable("id") Long id,  Model model){
         authorService.deleteAuthor(id);
         return "redirect:/authors";

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AuthorService {
 
-    List<Author> getAll();
+    List<Author> findAll();
 
     List<Author> findByNameContainText(String text);
 

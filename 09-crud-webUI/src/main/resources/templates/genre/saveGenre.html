@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add genre</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<h3>Add genre:</h3>
+<form id="edit-form"  th:object="${genre}" th:method="post" th:action="@{/genres/new}">
+    <div class="row">
+        <label for="person-name-input">Name:</label>
+        <input id="person-name-input" th:name="name" type="text" value="New genre" th:value="*{name}"/>
+    </div>
+    <button type="submit">Save</button>
+</form>
+    <div class="row">
+        <a href="listGenres.html" th:href="@{/genres}"><button type="button">Cancel</button></a>
+    </div>
+</body>

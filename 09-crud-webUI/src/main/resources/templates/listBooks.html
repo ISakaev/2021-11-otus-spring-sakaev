@@ -3,35 +3,21 @@
 <head>
     <meta charset="UTF-8"/>
     <title>List of all persons</title>
-    <style type="text/css">
-        body {
-            padding: 50px;
-        }
-
-        .persons {
-            border: 1px solid steelblue;
-            width: 300px;
-            border-collapse: collapse;
-        }
-
-        .persons tr td, th {
-            padding: 5px;
-            border: 1px solid steelblue;
-        }
-
-        .persons td:last-child, td:first-child {
-            width: 50px;
-        }
-    </style>
+    <link rel="stylesheet" th:href="main.css">
 </head>
 <body>
-<h3>Persons:</h3>
-
+<div class="topnav">
+    <a class="active" th:href="@{/books}">Books</a>
+    <a th:href="@{/authors}">Authors</a>
+    <a th:href="@{/genres}">Genres</a>
+</div>
 <table class="persons">
     <thead>
     <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Author</th>
+        <th>Genre</th>
         <th>Action</th>
     </tr>
     </thead>
@@ -39,13 +25,17 @@
     <tr th:each="book : ${books}">
         <td th:text="${book.id}">1</td>
         <td th:text="${book.title}">John Doe</td>
+        <td th:text="${book.author.name}">John Doe</td>
+        <td th:text="${book.genre.name}">John Doe</td>
         <td>
-            <a href="editBook.html"  th:href="@{/book/__${book.id}__}">Edit</a>
-            <a href="listBooks.html" th:href="@{/book/delete/__${book.id}__}">Delete</a>
+            <a href="editBook.html"  th:href="@{/books/__${book.id}__}">Edit</a>
+            <a href="listBooks.html" th:href="@{/books/delete/__${book.id}__}">Delete</a>
         </td>
     </tr>
     </tbody>
 </table>
-<a href="editAuthor.html"  th:href="@{/book/new}">Save new Book</a>
+    <div class="row">
+        <a href="/saveBook.html"  th:href="@{/books/new}"><button type="button">Add new Book</button></a>
+    </div>
 </body>
 </html>

@@ -16,22 +16,22 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public List<Genre> getAll() {
+    public List<Genre> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Genre getGenre(Long id) {
+    public Genre getGenre(long id) {
         return repository.getById(id);
     }
 
     @Override
-    public Genre saveGenre(String name) {
-        return null;
+    public Genre saveGenre(Genre genre) {
+        return repository.save(genre);
     }
 
     @Override
-    public void deleteGenre(int id) {
-
+    public void deleteGenre(long id) {
+        repository.deleteById(id);
     }
 }

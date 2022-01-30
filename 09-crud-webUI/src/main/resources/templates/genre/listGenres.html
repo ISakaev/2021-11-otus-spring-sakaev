@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all persons</title>
+    <link rel="stylesheet" th:href="main.css">
+</head>
+<body>
+<div class="topnav">
+    <a th:href="@{/books}">Books</a>
+    <a th:href="@{/authors}">Authors</a>
+    <a  class="active" th:href="@{/genres}">Genres</a>
+</div>
+
+<table class="persons">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="genre : ${genres}">
+        <td th:text="${genre.id}">1</td>
+        <td th:text="${genre.name}">John Doe</td>
+        <td>
+            <a href="editGenre.html"  th:href="@{/genres/__${genre.id}__}">Edit</a>
+            <a href="listGenres.html" th:href="@{/genres/delete/__${genre.id}__}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+    <div class="row">
+        <a href="saveGenre.html"  th:href="@{/genres/new}"><button type="button">Save new Genre</button></a>
+    </div>
+</body>
+</html>

@@ -1,12 +1,8 @@
 package ru.isakaev.model;
 
 import lombok.Data;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -16,27 +12,23 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "name")
     private String title;
 
-    @OneToOne(targetEntity = Author.class, cascade = CascadeType.PERSIST)
+    @OneToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @OneToOne(targetEntity = Genre.class, cascade = CascadeType.PERSIST)
+    @OneToOne(targetEntity = Genre.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "genre_id")
     private Genre genre;
-
-//    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "book_id")
-//    private List<Comment> comments;
 
     public Book(Long id, String title, Author author, Genre genre) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.genre = genre;
-//        this.comments = comments;
     }
 
     public Book(String title, Author author, Genre genre) {

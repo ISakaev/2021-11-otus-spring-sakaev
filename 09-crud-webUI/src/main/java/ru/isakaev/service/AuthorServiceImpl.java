@@ -18,13 +18,13 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public List<Author> getAll() {
+    public List<Author> findAll() {
         return repository.findAll();
     }
 
     @Override
     public List<Author> findByNameContainText(String text) {
-        return null;
+        return repository.findByNameContains(text);
     }
 
     @Override

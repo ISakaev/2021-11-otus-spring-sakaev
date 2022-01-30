@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.isakaev.model.Author;
 import ru.isakaev.model.Book;
-import ru.isakaev.model.BookDto;
 import ru.isakaev.model.Genre;
 import ru.isakaev.service.AuthorService;
 import ru.isakaev.service.BookService;
@@ -28,44 +27,50 @@ public class BookController {
         this.genreService = genreService;
     }
 
-    @GetMapping("/")
+    @GetMapping({"/","books"})
     public String getBooks(Model model){
         List<Book> bookList = bookService.findAll();
         model.addAttribute("books", bookList);
         return "listBooks";
     }
 
-    @GetMapping("/book/{id}")
+    @GetMapping("/books/{id}")
     public String getBook(@PathVariable("id") Integer id, Model model){
         Book book = bookService.getBook(id);
-        List<Author> authors = authorService.getAll();
-        List<Genre> genres = genreService.getAll();
+        List<Author> authors = authorService.findAll();
+        List<Genre> genres = genreService.findAll();
         model.addAttribute("authors", authors);
         model.addAttribute("genres", genres);
         model.addAttribute("book", book);
         return "editBook";
     }
-    @GetMapping("/book/new")
+
+    @PostMapping("/books")
+    public String saveBook(@ModelAttribute("book") Book book) {
+        bookService.saveBook(book);
+        return "redirect:/books";
+    }
+
+    @GetMapping("/books/new")
     public String saveBook(Model model){
-        BookDto book = new BookDto();
-        List<Author> authors = authorService.getAll();
-        List<Genre> genres = genreService.getAll();
+        Book book = new Book();
+        List<Author> authors = authorService.findAll();
+        List<Genre> genres = genreService.findAll();
         model.addAttribute("authors", authors);
         model.addAttribute("genres", genres);
         model.addAttribute("book", book);
         return "saveBook";
     }
 
-    @PostMapping("/book/new")
-    public String saveBookForm(@ModelAttribute("book") BookDto bookDto){
-        Book book = new Book(bookDto.getTitle(),authorService.getAuthor(bookDto.getAuthor()), genreService.getGenre(bookDto.getGenre()));
+    @PostMapping("/books/new")
+    public String saveBookForm(@ModelAttribute("book") Book book){
         bookService.saveBook(book);
-        return "redirect:/";
+        return "redirect:/books";
     }
 
-    @GetMapping("/book/delete/{id}")
-    public String deleteAuthor(@PathVariable("id") Long id){
+    @GetMapping("/books/delete/{id}")
+    public String deleteBook(@PathVariable("id") Long id){
         bookService.deleteBook(id);
-        return "redirect:/";
+        return "redirect:/books";
     }
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all persons</title>
+    <link rel="stylesheet" th:href="main.css">
+</head>
+<body>
+<div class="topnav">
+    <a  th:href="@{/books}">Books</a>
+    <a class="active" th:href="@{/authors}">Authors</a>
+    <a th:href="@{/genres}">Genres</a>
+</div>
+
+<table class="persons">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="author : ${authors}">
+        <td th:text="${author.id}">1</td>
+        <td th:text="${author.name}">John Doe</td>
+        <td>
+            <a href="editAuthor.html"  th:href="@{/authors/__${author.id}__}">Edit</a>
+            <a href="listAuthors.html" th:href="@{/authors/delete/__${author.id}__}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+    <div class="row">
+        <a href="editAuthor.html"  th:href="@{/authors/new}"><button type="button">Add new Author</button></a>
+    </div>
+</body>
+</html>
