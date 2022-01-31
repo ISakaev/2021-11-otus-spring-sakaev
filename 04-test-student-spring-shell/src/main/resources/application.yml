@@ -1,0 +1,14 @@
+attempt:
+  count:  3
+passing:
+  barrier:  5
+lang:
+  location: en
+spring:
+  main:
+    allow-circular-references: true
+
+
+
+
+
