@@ -23,7 +23,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> getAll() {
         List<Book> all = bookDao.getAll();
-        return all.stream().map(book -> new BookDto(book.getId(), book.getTitle())).collect(Collectors.toList());
+        return all.stream().map(book -> new BookDto(book.getId(), book.getTitle(), book.getAuthor())).collect(Collectors.toList());
 
     }
 
@@ -46,7 +46,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public void deleteBook(Long id) {
         bookDao.deleteById(id);
     }

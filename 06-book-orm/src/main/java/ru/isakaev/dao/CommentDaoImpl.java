@@ -1,6 +1,7 @@
 package ru.isakaev.dao;
 
 import org.springframework.stereotype.Repository;
+import ru.isakaev.model.Book;
 import ru.isakaev.model.Comment;
 
 import javax.persistence.EntityManager;
@@ -20,7 +21,7 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        TypedQuery<Comment> query = em.createQuery("select c from Comment c", Comment.class);
+        TypedQuery<Comment> query = em.createQuery("select c from Comment c join fetch c.book b join fetch b.author", Comment.class);
         return query.getResultList();
     }
 
@@ -29,29 +30,16 @@ public class CommentDaoImpl implements CommentDao {
         TypedQuery<Comment> query = em.createQuery("select distinct c from Comment c " +
                 "join fetch c.book b " +
                 "join fetch b.genre " +
-                "join fetch b.author " +
                 "where c.id =: id", Comment.class);
         query.setParameter("id", id);
         return query.getSingleResult();
     }
 
     @Override
-    public List<Comment> findByName(String text) {
-        TypedQuery<Comment> query = em.createQuery("select c from Comment c " +
-                "join fetch c.book b " +
-                "join fetch b.genre " +
-                "join fetch b.author " +
-                "where c.text = :text", Comment.class);
-        query.setParameter("text", text);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Comment> findByBookId(Long id) {
-        TypedQuery<Comment> query = em.createQuery("select c from Comment c " +
-                " where c.book.id = :id", Comment.class);
-        query.setParameter("id", id);
-        return query.getResultList();
+    public List<Comment> findByBook(Book book) {
+    TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.book =:book", Comment.class);
+    query.setParameter("book", book);
+    return query.getResultList();
     }
 
     @Override

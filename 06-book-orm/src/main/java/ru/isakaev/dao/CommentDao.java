@@ -1,5 +1,6 @@
 package ru.isakaev.dao;
 
+import ru.isakaev.model.Book;
 import ru.isakaev.model.Comment;
 
 import java.util.List;
@@ -10,9 +11,9 @@ public interface CommentDao {
 
     Comment getById(Long id);
 
-    List<Comment> findByName(String name);
+//    List<Comment> findByName(String name);
 
-    List<Comment> findByBookId(Long id);
+    List<Comment> findByBook(Book book);
 
     Comment save(Comment genre);
 

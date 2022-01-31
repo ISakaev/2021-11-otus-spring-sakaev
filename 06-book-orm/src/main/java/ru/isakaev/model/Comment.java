@@ -17,7 +17,7 @@ public class Comment {
     @Column(name = "name")
     private String text;
 
-    @ManyToOne(targetEntity = Book.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Book.class, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "book_id")
     private Book book;
@@ -25,8 +25,9 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String text) {
+    public Comment(String text, Book book) {
         this.text = text;
+        this.book = book;
     }
 
     public Comment(Long id, String text, Book book) {

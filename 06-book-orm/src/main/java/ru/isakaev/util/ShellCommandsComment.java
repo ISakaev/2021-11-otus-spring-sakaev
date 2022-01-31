@@ -31,8 +31,9 @@ public class ShellCommandsComment {
     }
 
     @ShellMethod(value = "Save comment", key = {"sc", "saveComment"})
-    public String saveComment(@ShellOption String text){
-        Comment comment = commentService.saveComment(text);
+    public String saveComment(@ShellOption String text,
+                              @ShellOption Long bookId){
+        Comment comment = commentService.saveComment(text, bookId);
         return "Author " + comment.toString() + " was saved";
     }
 

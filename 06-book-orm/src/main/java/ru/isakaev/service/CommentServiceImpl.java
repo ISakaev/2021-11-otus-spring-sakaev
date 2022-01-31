@@ -2,7 +2,9 @@ package ru.isakaev.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.isakaev.dao.BookDao;
 import ru.isakaev.dao.CommentDao;
+import ru.isakaev.model.Book;
 import ru.isakaev.model.Comment;
 import ru.isakaev.model.dto.CommentDto;
 
@@ -14,15 +16,18 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentDao commentDao;
 
-    public CommentServiceImpl(CommentDao commentDao) {
+    private final BookDao bookDao;
+
+    public CommentServiceImpl(CommentDao commentDao, BookDao bookDao) {
         this.commentDao = commentDao;
+        this.bookDao = bookDao;
     }
 
     @Override
     public List<CommentDto> getAll() {
         List<Comment> comments = commentDao.getAll();
         return comments.stream()
-                .map(comment -> new CommentDto(comment.getId(), comment.getText()))
+                .map(comment -> new CommentDto(comment.getId(), comment.getText(), comment.getBook().getTitle()))
                 .collect(Collectors.toList());
     }
 
@@ -36,23 +41,21 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public List<CommentDto> getCommentsByBookId(Long id) {
-        List<Comment> comments = commentDao.findByBookId(id);
-        List<CommentDto> dtoList = comments.stream().map(comment -> new CommentDto(comment.getId(), comment.getText())).collect(Collectors.toList());
+        Book book = bookDao.getById(id);
+        List<Comment> comments = commentDao.findByBook(book);
+        List<CommentDto> dtoList = comments.stream()
+                .map(comment -> new CommentDto(comment.getId(), comment.getText(), comment.getBook().getTitle())).collect(Collectors.toList());
         return dtoList;
     }
 
     @Override
     @Transactional
-    public Comment saveComment(String name) {
-        List<Comment> comment = commentDao.findByName(name);
-        if(!comment.isEmpty()){
-            return comment.get(0);
-        }
-        return commentDao.save(new Comment(name));
+    public Comment saveComment(String name, Long bookId) {
+        Book book = bookDao.getById(bookId);
+        return commentDao.save(new Comment(name, book));
     }
 
     @Override
-    @Transactional
     public void deleteComment(Long id) {
         commentDao.deleteById(id);
     }

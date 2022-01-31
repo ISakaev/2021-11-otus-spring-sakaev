@@ -4,13 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import ru.isakaev.dao.BookDao;
 import ru.isakaev.dao.CommentDao;
 import ru.isakaev.model.Author;
 import ru.isakaev.model.Book;
 import ru.isakaev.model.Comment;
 import ru.isakaev.model.Genre;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -21,15 +20,20 @@ class CommentServiceImplTest {
 
     @MockBean
     private CommentDao commentDao;
+    @MockBean
+    private BookDao bookDao;
 
     private Comment comment;
+
+    private Book book;
 
     private CommentService commentService;
 
     @BeforeEach
     void setUp() {
-        commentService = new CommentServiceImpl(commentDao);
-        comment = new Comment(1L,"Комментарий",new Book(1L,"Название книги", new Author(1L,"Автор"), new Genre(1L, "Жанр")));
+        commentService = new CommentServiceImpl(commentDao, bookDao);
+        book = new Book(1L,"Название книги", new Author(1L,"Автор"), new Genre(1L, "Жанр"));
+        comment = new Comment(1L,"Комментарий", book);
     }
 
     @Test
@@ -46,18 +50,10 @@ class CommentServiceImplTest {
 
     @Test
     void shouldSaveAvailableComment() {
-        when(commentDao.findByName("Комментарий")).thenReturn(List.of(comment));
-        Comment newComment= commentService.saveComment("Комментарий");
+        when(bookDao.getById(1L)).thenReturn(book);
+        when(commentDao.save( new Comment("Комментарий", book))).thenReturn(comment);
+        Comment newComment= commentService.saveComment("Комментарий", 1L);
         assertThat(newComment.getId()).isEqualTo(comment.getId());
-    }
-
-    @Test
-    void shouldSaveUnavailableComment() {
-        when(commentDao.getAll()).thenReturn(List.of(comment));
-        Comment secondComment = new Comment("Новый комментарий");
-        when(commentDao.save(new Comment("Новый комментарий"))).thenReturn(secondComment);
-        Comment newComment = commentService.saveComment("Новый комментарий");
-        assertThat(newComment.getId()).isEqualTo(secondComment.getId());
     }
 
     @Test

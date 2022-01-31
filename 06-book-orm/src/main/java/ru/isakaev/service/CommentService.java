@@ -13,7 +13,7 @@ public interface CommentService {
 
     List<CommentDto> getCommentsByBookId(Long id);
 
-    Comment saveComment(String name);
+    Comment saveComment(String name, Long bookId);
 
     void deleteComment(Long id);
 }

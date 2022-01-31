@@ -9,8 +9,6 @@ import org.springframework.test.context.jdbc.Sql;
 import ru.isakaev.model.Book;
 import ru.isakaev.model.Comment;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Sql("classpath:data-test.sql")
@@ -41,14 +39,8 @@ class CommentDaoImplTest {
     }
 
     @Test
-    void shouldFindExpectedCommentByName(){
-        List<Comment> comments = repositoryJPA.findByName("Первый коментарий");
-        assertThat(comments.get(0).getId()).isEqualTo(FIRST_COMMENT_ID);
-    }
-
-    @Test
     void shouldInsertComment() {
-        repositoryJPA.save(new Comment("New comment"));
+        repositoryJPA.save(new Comment("New comment", new Book()));
         assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_COMMENT_COUNT + 1);
     }
 

@@ -7,8 +7,8 @@ import java.util.Objects;
 
 @Data
 @Entity
-@NamedEntityGraph(name = "book-author-entity-graph",
-        attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genre")})
+@NamedEntityGraph(name = "book-genre-entity-graph",
+        attributeNodes ={@NamedAttributeNode("genre")})
 public class Book {
 
     @Id
@@ -17,7 +17,7 @@ public class Book {
     @Column(name = "name")
     private String title;
 
-    @ManyToOne(targetEntity = Author.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Author.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id")
     private Author author;
 

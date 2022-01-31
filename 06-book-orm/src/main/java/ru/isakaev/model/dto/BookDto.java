@@ -3,6 +3,7 @@ package ru.isakaev.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.isakaev.model.Author;
 
 @Data
 @AllArgsConstructor
@@ -13,5 +14,6 @@ public class BookDto {
 
     private String title;
 
+    private Author author;
 
 }

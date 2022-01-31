@@ -21,14 +21,14 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        TypedQuery<Book> query = em.createQuery("select distinct b from Book b", Book.class);
+        TypedQuery<Book> query = em.createQuery("select distinct b from Book b join fetch b.author", Book.class);
         return query.getResultList();
     }
 
     @Override
     public Book getById(Long id) {
-        EntityGraph<?> authorEntityGraph = em.getEntityGraph("book-author-entity-graph");
-        TypedQuery<Book> query = em.createQuery("select distinct b from Book b where b.id =: id", Book.class);
+        EntityGraph<?> authorEntityGraph = em.getEntityGraph("book-genre-entity-graph");
+        TypedQuery<Book> query = em.createQuery("select distinct b from Book b join fetch b.author where b.id =: id", Book.class);
         query.setParameter("id", id);
         query.setHint("javax.persistence.fetchgraph", authorEntityGraph);
         return query.getSingleResult();
@@ -36,8 +36,8 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> findByName(String title) {
-        EntityGraph<?> authorEntityGraph = em.getEntityGraph("book-author-entity-graph");
-        TypedQuery<Book> query = em.createQuery("select b from Book b where b.title = :title", Book.class);
+        EntityGraph<?> authorEntityGraph = em.getEntityGraph("book-genre-entity-graph");
+        TypedQuery<Book> query = em.createQuery("select b from Book b join fetch b.author  where b.title = :title", Book.class);
         query.setParameter("title", title);
         query.setHint("javax.persistence.fetchgraph", authorEntityGraph);
         return query.getResultList();
