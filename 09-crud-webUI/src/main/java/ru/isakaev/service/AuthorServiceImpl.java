@@ -2,6 +2,7 @@ package ru.isakaev.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.isakaev.model.Author;
 import ru.isakaev.repo.AuthorRepository;
 
@@ -33,11 +34,14 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author saveAuthor(Author author) {
-        return repository.save(author);
+    @Transactional
+    public Author saveAuthor(Author newAuthor) {
+        Author author = repository.findByName(newAuthor.getName());
+        if (author != null){
+            return author;
+        }
+        return repository.save(newAuthor);
     }
-
-
 
     @Override
     public void deleteAuthor(Long id) {

@@ -25,14 +25,14 @@
         <td th:text="${author.id}">1</td>
         <td th:text="${author.name}">John Doe</td>
         <td>
-            <a href="editAuthor.html"  th:href="@{/authors/__${author.id}__}">Edit</a>
-            <a href="listAuthors.html" th:href="@{/authors/delete/__${author.id}__}">Delete</a>
+            <a th:href="@{/authors/__${author.id}__}">Edit</a>
+            <a th:href="@{/authors/delete/__${author.id}__}">Delete</a>
         </td>
     </tr>
     </tbody>
 </table>
     <div class="row">
-        <a href="editAuthor.html"  th:href="@{/authors/new}"><button type="button">Add new Author</button></a>
+        <a th:href="@{/authors/new}"><button type="button">Add new Author</button></a>
     </div>
 </body>
 </html>

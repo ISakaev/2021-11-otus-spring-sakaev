@@ -25,14 +25,14 @@
         <td th:text="${genre.id}">1</td>
         <td th:text="${genre.name}">John Doe</td>
         <td>
-            <a href="editGenre.html"  th:href="@{/genres/__${genre.id}__}">Edit</a>
-            <a href="listGenres.html" th:href="@{/genres/delete/__${genre.id}__}">Delete</a>
+            <a th:href="@{/genres/__${genre.id}__}">Edit</a>
+            <a th:href="@{/genres/delete/__${genre.id}__}">Delete</a>
         </td>
     </tr>
     </tbody>
 </table>
     <div class="row">
-        <a href="saveGenre.html"  th:href="@{/genres/new}"><button type="button">Save new Genre</button></a>
+        <a th:href="@{/genres/new}"><button type="button">Save new Genre</button></a>
     </div>
 </body>
 </html>

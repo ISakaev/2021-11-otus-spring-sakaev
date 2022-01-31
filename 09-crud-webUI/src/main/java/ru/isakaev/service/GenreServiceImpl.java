@@ -1,6 +1,7 @@
 package ru.isakaev.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.isakaev.model.Genre;
 import ru.isakaev.repo.GenreRepository;
 
@@ -26,8 +27,13 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Genre saveGenre(Genre genre) {
-        return repository.save(genre);
+    @Transactional
+    public Genre saveGenre(Genre newGenre) {
+        Genre genre = repository.findByName(newGenre.getName());
+        if (genre != null){
+            return genre;
+        }
+        return repository.save(newGenre);
     }
 
     @Override

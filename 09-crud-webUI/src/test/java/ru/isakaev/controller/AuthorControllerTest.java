@@ -1,6 +1,5 @@
 package ru.isakaev.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -9,10 +8,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.isakaev.model.Author;
 import ru.isakaev.service.AuthorService;
 
-import java.util.Optional;
-
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -21,9 +19,6 @@ class AuthorControllerTest {
 
     @Autowired
     private MockMvc mvc;
-
-    @Autowired
-    private ObjectMapper mapper;
 
     @MockBean
     private AuthorService authorService;
@@ -35,7 +30,6 @@ class AuthorControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("authors"))
                 .andExpect(view().name("/author/listAuthors"));
-
     }
 
     @Test
@@ -49,18 +43,38 @@ class AuthorControllerTest {
     }
 
     @Test
-    void saveAuthor() {
+    void shouldRedirectAfterSaving() throws Exception {
+        Author author = new Author(1L, "Author1");
+        given(authorService.getAuthor(1L)).willReturn(author);
+        given(authorService.saveAuthor(author)).willReturn(author);
+        mvc.perform(post("/authors")
+                    .param("id", String.valueOf(1L))
+                    .param("name","Author1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/authors"));
     }
 
     @Test
-    void addAuthors() {
+    void shouldReturnCorrectViewDuringSaveNewAuthorGet() throws Exception {
+        mvc.perform(get("/authors/new"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("author"))
+                .andExpect(view().name("/author/saveAuthor"));
     }
 
     @Test
-    void addAuthorsForm() {
+    void shouldReturnCorrectViewDuringSaveNewAuthorPost() throws Exception {
+        Author author = new Author(1L, "Author1");
+        given(authorService.saveAuthor(author)).willReturn(author);
+        mvc.perform(post("/authors/new").requestAttr("author", author))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/authors"));
     }
 
     @Test
-    void deleteAuthor() {
+    void shouldReturnCorrectViewDuringDeleteAuthor() throws Exception {
+        mvc.perform(get("/authors/delete/1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/authors"));
     }
 }

@@ -26,12 +26,12 @@
 <h3>Add author:</h3>
 <form id="edit-form"  th:object="${author}" th:method="post" th:action="@{/authors/new}">
     <div class="row">
-        <label for="person-name-input">Name:</label>
-        <input id="person-name-input" th:name="name" type="text" value="New Author" th:value="*{name}"/>
+        <label for="author-name-input">Name:</label>
+        <input id="author-name-input" th:name="name" type="text" value="New Author" th:value="*{name}"/>
     </div>
     <button type="submit">Save</button>
 </form>
     <div class="row">
-        <a href="list.html" th:href="@{/authors}"><button type="button">Cancel</button></a>
+        <a th:href="@{/authors}"><button type="button">Cancel</button></a>
     </div>
 </body>

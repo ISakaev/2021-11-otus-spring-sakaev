@@ -28,14 +28,14 @@
         <td th:text="${book.author.name}">John Doe</td>
         <td th:text="${book.genre.name}">John Doe</td>
         <td>
-            <a href="editBook.html"  th:href="@{/books/__${book.id}__}">Edit</a>
-            <a href="listBooks.html" th:href="@{/books/delete/__${book.id}__}">Delete</a>
+            <a th:href="@{/books/__${book.id}__}">Edit</a>
+            <a th:href="@{/books/delete/__${book.id}__}">Delete</a>
         </td>
     </tr>
     </tbody>
 </table>
     <div class="row">
-        <a href="/saveBook.html"  th:href="@{/books/new}"><button type="button">Add new Book</button></a>
+        <a th:href="@{/books/new}"><button type="button">Add new Book</button></a>
     </div>
 </body>
 </html>
