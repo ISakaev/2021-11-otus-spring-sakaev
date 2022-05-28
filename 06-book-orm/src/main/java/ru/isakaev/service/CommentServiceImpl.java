@@ -27,7 +27,11 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentDto> getAll() {
         List<Comment> comments = commentDao.getAll();
         return comments.stream()
-                .map(comment -> new CommentDto(comment.getId(), comment.getText(), comment.getBook().getTitle()))
+                .map(c -> CommentDto.builder()
+                                    .id(c.getId())
+                                    .text(c.getText())
+                                    .bookTitle (c.getBook().getTitle())
+                                    .build())
                 .collect(Collectors.toList());
     }
 
@@ -41,10 +45,15 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public List<CommentDto> getCommentsByBookId(Long id) {
-        Book book = bookDao.getById(id);
-        List<Comment> comments = commentDao.findByBook(book);
-        List<CommentDto> dtoList = comments.stream()
-                .map(comment -> new CommentDto(comment.getId(), comment.getText(), comment.getBook().getTitle())).collect(Collectors.toList());
+        ;
+        List<CommentDto> dtoList = commentDao.getAll().stream()
+                                             .filter(comment -> comment.getBook().getId() == id)
+                                             .map(c -> CommentDto.builder()
+                                                                 .id(c.getId())
+                                                                 .text(c.getText())
+                                                                 .bookTitle (c.getBook().getTitle())
+                                                                 .build())
+                                             .collect(Collectors.toList());
         return dtoList;
     }
 

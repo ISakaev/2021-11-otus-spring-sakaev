@@ -36,13 +36,6 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public List<Comment> findByBook(Book book) {
-    TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.book =:book", Comment.class);
-    query.setParameter("book", book);
-    return query.getResultList();
-    }
-
-    @Override
     public Comment save(Comment comment) {
         if (comment.getId() == null) {
             em.persist(comment);

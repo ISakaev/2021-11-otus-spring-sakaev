@@ -11,10 +11,6 @@ public interface CommentDao {
 
     Comment getById(Long id);
 
-//    List<Comment> findByName(String name);
-
-    List<Comment> findByBook(Book book);
-
     Comment save(Comment genre);
 
     void deleteById(Long id);
