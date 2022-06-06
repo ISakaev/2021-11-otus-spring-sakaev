@@ -45,7 +45,6 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public List<CommentDto> getCommentsByBookId(Long id) {
-        ;
         List<CommentDto> dtoList = commentDao.getAll().stream()
                                              .filter(comment -> comment.getBook().getId() == id)
                                              .map(c -> CommentDto.builder()

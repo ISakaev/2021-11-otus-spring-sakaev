@@ -1,11 +1,16 @@
 package ru.isakaev.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "author")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Author {
 
     @Id
@@ -15,18 +20,7 @@ public class Author {
     @Column(name = "name")
     private String name;
 
-
-
     public Author(String name) {
         this.name = name;
-    }
-
-    public Author(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Author() {
-
     }
 }

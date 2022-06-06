@@ -1,14 +1,19 @@
 package ru.isakaev.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Data
 @Entity
+@Table(name = "book")
 @NamedEntityGraph(name = "book-genre-entity-graph",
         attributeNodes ={@NamedAttributeNode("genre")})
+@AllArgsConstructor
+@NoArgsConstructor
 public class Book {
 
     @Id
@@ -25,21 +30,10 @@ public class Book {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-
-    public Book(Long id, String title, Author author, Genre genre) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
-    }
-
     public Book(String title, Author author, Genre genre) {
         this.title = title;
         this.author = author;
         this.genre = genre;
-    }
-
-    public Book() {
     }
 
     @Override

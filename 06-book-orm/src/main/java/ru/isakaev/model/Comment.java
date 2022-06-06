@@ -1,6 +1,8 @@
 package ru.isakaev.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -8,6 +10,9 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "comment")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Comment {
 
     @Id
@@ -22,16 +27,7 @@ public class Comment {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    public Comment() {
-    }
-
     public Comment(String text, Book book) {
-        this.text = text;
-        this.book = book;
-    }
-
-    public Comment(Long id, String text, Book book) {
-        this.id = id;
         this.text = text;
         this.book = book;
     }
