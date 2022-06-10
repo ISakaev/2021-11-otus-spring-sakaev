@@ -40,13 +40,13 @@ class CommentDaoImplTest {
 
     @Test
     void shouldInsertComment() {
-        repositoryJPA.save(new Comment("New comment", new Book()));
+        repositoryJPA.save(new Comment("New comment"));
         assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_COMMENT_COUNT + 1);
     }
 
     @Test
     void shouldInsertExistComment() {
-        repositoryJPA.save(new Comment(1L,"Первый коментарий", new Book()));
+        repositoryJPA.save(new Comment(1L,"Первый коментарий"));
         assertThat(repositoryJPA.getAll().size()).isEqualTo(EXPECTED_COMMENT_COUNT);
     }
 

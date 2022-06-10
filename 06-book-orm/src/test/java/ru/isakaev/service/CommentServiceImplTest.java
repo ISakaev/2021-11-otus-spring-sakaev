@@ -11,6 +11,8 @@ import ru.isakaev.model.Book;
 import ru.isakaev.model.Comment;
 import ru.isakaev.model.Genre;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,8 +34,8 @@ class CommentServiceImplTest {
     @BeforeEach
     void setUp() {
         commentService = new CommentServiceImpl(commentDao, bookDao);
-        book = new Book(1L,"Название книги", new Author(1L,"Автор"), new Genre(1L, "Жанр"));
-        comment = new Comment(1L,"Комментарий", book);
+        comment = new Comment(1L,"Комментарий");
+        book = new Book(1L,"Название книги", new Author(1L,"Автор"), new Genre(1L, "Жанр"), List.of(comment));
     }
 
     @Test
@@ -51,7 +53,7 @@ class CommentServiceImplTest {
     @Test
     void shouldSaveAvailableComment() {
         when(bookDao.getById(1L)).thenReturn(book);
-        when(commentDao.save( new Comment("Комментарий", book))).thenReturn(comment);
+        when(commentDao.save( new Comment("Комментарий"))).thenReturn(comment);
         Comment newComment= commentService.saveComment("Комментарий", 1L);
         assertThat(newComment.getId()).isEqualTo(comment.getId());
     }

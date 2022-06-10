@@ -30,7 +30,6 @@ public class CommentServiceImpl implements CommentService {
                 .map(c -> CommentDto.builder()
                                     .id(c.getId())
                                     .text(c.getText())
-                                    .bookTitle (c.getBook().getTitle())
                                     .build())
                 .collect(Collectors.toList());
     }
@@ -45,12 +44,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public List<CommentDto> getCommentsByBookId(Long id) {
-        List<CommentDto> dtoList = commentDao.getAll().stream()
-                                             .filter(comment -> comment.getBook().getId() == id)
-                                             .map(c -> CommentDto.builder()
+        List<CommentDto> dtoList = bookDao.getById(id).getComment()
+                                                        .stream().map(c -> CommentDto.builder()
                                                                  .id(c.getId())
                                                                  .text(c.getText())
-                                                                 .bookTitle (c.getBook().getTitle())
                                                                  .build())
                                              .collect(Collectors.toList());
         return dtoList;
@@ -60,7 +57,10 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public Comment saveComment(String name, Long bookId) {
         Book book = bookDao.getById(bookId);
-        return commentDao.save(new Comment(name, book));
+        Comment c = new Comment(name);
+        book.addComment(c);
+        bookDao.save(book);
+        return c;
     }
 
     @Override
