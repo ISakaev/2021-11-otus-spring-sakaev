@@ -19,12 +19,18 @@ public class BookDaoImpl implements BookDao {
         this.em = em;
     }
 
+    /**
+     * Получение списка всех книг
+     */
     @Override
     public List<Book> getAll() {
         TypedQuery<Book> query = em.createQuery("select distinct b from Book b join fetch b.author", Book.class);
         return query.getResultList();
     }
 
+    /**
+     * Получение книги по идентификатору
+     */
     @Override
     public Book getById(Long id) {
         EntityGraph<?> authorEntityGraph = em.getEntityGraph("full-book-entity-graph");
@@ -34,6 +40,9 @@ public class BookDaoImpl implements BookDao {
         return query.getSingleResult();
     }
 
+    /**
+     * Получение книги по названию
+     */
     @Override
     public List<Book> findByName(String title) {
         EntityGraph<?> authorEntityGraph = em.getEntityGraph("full-book-entity-graph");
@@ -43,6 +52,9 @@ public class BookDaoImpl implements BookDao {
         return query.getResultList();
     }
 
+    /**
+     * Сохранение новой книги
+     */
     @Override
     public Book save(Book book) {
         if (book.getId() == null) {
@@ -53,6 +65,9 @@ public class BookDaoImpl implements BookDao {
         }
     }
 
+    /**
+     * Удаление книги по идентификатору
+     */
     @Override
     public void deleteById(Long id) {
         Book book = em.find(Book.class, id);

@@ -19,12 +19,18 @@ public class CommentDaoImpl implements CommentDao {
         this.em = em;
     }
 
+    /**
+     * Получение списка всех комментариев
+     */
     @Override
     public List<Comment> getAll() {
         TypedQuery<Comment> query = em.createQuery("select c from Comment c join fetch c.book b join fetch b.author", Comment.class);
         return query.getResultList();
     }
 
+    /**
+     * Получение комментария по идентификатору
+     */
     @Override
     public Comment getById(Long id) {
         TypedQuery<Comment> query = em.createQuery("select distinct c from Comment c " +
@@ -35,6 +41,9 @@ public class CommentDaoImpl implements CommentDao {
         return query.getSingleResult();
     }
 
+    /**
+     * Сохранение нового комментария
+     */
     @Override
     public Comment save(Comment comment) {
         if (comment.getId() == null) {
@@ -45,6 +54,9 @@ public class CommentDaoImpl implements CommentDao {
         }
     }
 
+    /**
+     * Удаление комментария по идентификатору
+     */
     @Override
     public void deleteById(Long id) {
         Comment comment = em.find(Comment.class, id);

@@ -19,12 +19,18 @@ public class AuthorDaoImpl implements AuthorDao {
         this.em = em;
     }
 
+    /**
+     * Получение списка всех авторов
+    */
     @Override
     public List<Author> getAll() {
         TypedQuery<Author> query = em.createQuery("select a from Author a", Author.class);
         return query.getResultList();
     }
 
+    /**
+     * Получение автора по имени
+     */
     @Override
     public List<Author> findByName(String name) {
         TypedQuery<Author> query = em.createQuery("select a from Author a where a.name = :name",
@@ -33,11 +39,17 @@ public class AuthorDaoImpl implements AuthorDao {
         return query.getResultList();
     }
 
+    /**
+     * Получение автора по идентификатору
+     */
     @Override
     public Optional<Author> getById(Long id) {
         return Optional.ofNullable(em.find(Author.class, id));
     }
 
+    /**
+     * Сохраняем нового автора
+     */
     @Override
     public Author save(Author author) {
         if (author.getId() == null) {
@@ -48,6 +60,9 @@ public class AuthorDaoImpl implements AuthorDao {
         }
     }
 
+    /**
+     * Удаляем автора по идентификатору
+     */
     @Override
     public void deleteById(Long id) {
         Author author = em.find(Author.class, id);

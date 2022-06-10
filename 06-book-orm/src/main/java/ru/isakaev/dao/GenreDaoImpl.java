@@ -19,17 +19,26 @@ public class GenreDaoImpl implements GenreDao {
         this.em = em;
     }
 
+    /**
+     * Получение списка всех жанров
+     */
     @Override
     public List<Genre> getAll() {
         TypedQuery<Genre> query = em.createQuery("select g from Genre g", Genre.class);
         return query.getResultList();
     }
 
+    /**
+     * Получение жанра по идентификатору
+     */
     @Override
     public Optional<Genre> getById(Long id) {
         return Optional.ofNullable(em.find(Genre.class, id));
     }
 
+    /**
+     * Получение жанра по названию
+     */
     @Override
     public List<Genre> findByName(String name) {
         TypedQuery<Genre> query = em.createQuery("select g from Genre g where g.name = :name",
@@ -38,6 +47,9 @@ public class GenreDaoImpl implements GenreDao {
         return query.getResultList();
     }
 
+    /**
+     * Сохранение нового жанра
+     */
     @Override
     public Genre save(Genre genre) {
         if (genre.getId() == null) {
@@ -48,6 +60,9 @@ public class GenreDaoImpl implements GenreDao {
         }
     }
 
+    /**
+     * Удаление жанра по идентификатору
+     */
     @Override
     public void deleteById(Long id) {
         Genre genre = em.find(Genre.class, id);
