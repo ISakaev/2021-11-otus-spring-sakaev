@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 class BookRepositoryTest {
 
-    private static final int EXPECTED_BOOKS_COUNT = 3;
+    private static final int EXPECTED_BOOKS_COUNT = 2;
 
 
     @Autowired
