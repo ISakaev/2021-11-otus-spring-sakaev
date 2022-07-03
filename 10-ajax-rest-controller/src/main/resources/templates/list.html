@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all books</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+    </style>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+</head>
+<button style = "width: 450px" onclick = "getDataByXmlHttpRequest()">Получить данные с помощью XMLHttpRequest (book with id = 1)</button><br/><br/>
+
+<script>
+  function outputCharacter(character) {
+    const dataContainer = document.getElementById("dataContainer")
+    dataContainer.innerHTML = `
+      ID : ${character.id}
+      Name : ${character.title}
+      Author : ${character.author.name}
+      Genre : ${character.genre.name}`
+
+  }
+</script>
+
+<script>
+  function getDataByXmlHttpRequest() {
+
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if(xhr.readyState === 4 && xhr.status === 200) {
+        const json = JSON.parse(xhr.responseText)
+        outputCharacter(json)
+      }
+    }
+    xhr.open('GET', 'http://localhost:8080/books/1')
+    xhr.send()
+  }
+</script>
+<body>
+<h1>Book:</h1>
+<pre id = "dataContainer"></pre>
+</body>
+</html>
