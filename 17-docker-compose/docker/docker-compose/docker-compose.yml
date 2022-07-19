@@ -11,25 +11,11 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/user_db
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: password
-#    networks:
-#      - nw
   db:
-#    image: 'postgres:12'
     image: my-postgres
     environment:
       POSTGRES_DB: user_db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-#    volumes:
-##      - ./resourse/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
-#      - ./resourse/schema.sql:/docker-entrypoint-initdb.d/initdb.sh
-#      - ./pgdata:/var/lib/postgresql/data
     ports:
       - 127.0.0.1:5432:5432
-
-#volumes:
-#  postgres-data:
-#    volumes:
-#      - .:/docker-entrypoint-initdb.d
-      #networks:
-#  nw:

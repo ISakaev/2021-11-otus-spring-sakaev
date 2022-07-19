@@ -1,5 +1,3 @@
--- DROP ALL OBJECTS;
-
 DROP TABLE IF EXISTS author;
 CREATE TABLE author(
                        id SERIAL UNIQUE ,
