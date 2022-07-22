@@ -12,10 +12,10 @@
   </parent>
 
   <groupId>ru.isakaev</groupId>
-  <artifactId>09-crud-webUI</artifactId>
+  <artifactId>10-ajax-rest-controller</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>09-crud-webUI Maven</name>
+  <name>10-ajax-rest-controller Maven</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

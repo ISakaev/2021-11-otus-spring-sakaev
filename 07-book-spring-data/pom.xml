@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>ru.isakaev</groupId>
-    <artifactId>06-book-orm</artifactId>
+    <artifactId>07-book-spring-data</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
